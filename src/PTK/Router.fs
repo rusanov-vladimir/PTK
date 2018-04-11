@@ -23,6 +23,7 @@ let browserRouter = scope {
     pipe_through browser //Use the default browser pipeline
 
     forward "" defaultView //Use the default view
+    forward "/mems" Mems.Controller.resource
 }
 
 //Other scopes may use different pipelines and error handlers
