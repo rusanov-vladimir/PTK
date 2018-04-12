@@ -3,6 +3,7 @@ namespace Mems
 open Microsoft.AspNetCore.Http
 open Giraffe.GiraffeViewEngine
 open Saturn
+open FSharp.Markdown
 
 module Views =
   let index (ctx : HttpContext) (objs : Mem list) =
@@ -25,7 +26,7 @@ module Views =
               yield tr [] [
                 td [] [rawText (string o.id)]
                 td [] [rawText (string o.title)]
-                td [] [rawText (string o.content)]
+                td [] [rawText o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
                 td [] [rawText (string o.author)]
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]
@@ -50,7 +51,7 @@ module Views =
         ul [] [
           li [] [ strong [] [rawText "Id: "]; rawText (string o.id) ]
           li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
-          li [] [ strong [] [rawText "Content: "]; rawText (string o.content) ]
+          li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
         ]
         a [_class "button is-text"; _href (Links.edit ctx (string o.id))] [rawText "Edit"]

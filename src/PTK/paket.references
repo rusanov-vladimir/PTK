@@ -3,6 +3,7 @@ Saturn
 
 Dapper
 Microsoft.Data.Sqlite
+FSharp.Formatting
 
 Microsoft.DotNet.Watcher.Tools
 dotnet-saturn

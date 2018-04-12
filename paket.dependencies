@@ -5,6 +5,7 @@ nuget Saturn
 nuget Simple.Migrations
 nuget Microsoft.Data.Sqlite
 nuget Dapper
+nuget FSharp.Formatting
 
 clitool Microsoft.DotNet.Watcher.Tools
 clitool dotnet-saturn
