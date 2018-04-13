@@ -1,1 +1,0 @@
- docker run --env HTTP_PROXY="http://proxy-md.ktn.group:3128" --env HTTPS_PROXY="http://proxy-md.ktn.group:3128" -it -v ${pwd}:/data -w "/data" -p 8085:8085 --name ptk microsoft/aspnetcore-build:2.0

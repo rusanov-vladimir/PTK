@@ -1,0 +1,1 @@
+docker run --env HTTP_PROXY="http://proxy-md.ktn.group:3128" --env HTTPS_PROXY="http://proxy-md.ktn.group:3128" -d -v ${pwd}\src\PTK\bin\Release\netcoreapp2.0\publish\:/data -w "/data" -p 8085:8085 --name ptk microsoft/aspnetcore-build:2.0 dotnet PTK.dll

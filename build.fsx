@@ -23,6 +23,15 @@ Target "Build" (fun _ ->
     DotNetCli.Build(fun p -> {p with WorkingDir = appPath})
 )
 
+Target "Publish" (fun _ ->
+    DotNetCli.Publish(fun p -> {p with WorkingDir = appPath})
+    let prc = new Diagnostics.Process()
+    prc.StartInfo.FileName <- "docker"
+    prc.StartInfo.Arguments <- "restart ptk"
+    prc.StartInfo.CreateNoWindow <- true
+    prc.Start() |> ignore
+)
+
 Target "Run" (fun () ->
   let server = async {
     DotNetCli.RunCommand (fun p -> {p with WorkingDir = appPath}) "watch run"

@@ -10,7 +10,7 @@ let index =
                     div [_class "columns is-vcentered"] [
                         div [_class "column"] [
                             p [_class "title"] [rawText "Welcome to personal tool kit!"]
-                            p [_class "subtitle"] [rawText "Place where I store my stuff"]
+                            p [_class "subtitle"] [rawText "Place where I store my stuff!"]
                         ]
                     ]
                 ]
