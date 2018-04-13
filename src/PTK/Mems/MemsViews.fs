@@ -26,7 +26,7 @@ module Views =
               yield tr [] [
                 td [] [rawText (string o.id)]
                 td [] [rawText (string o.title)]
-                td [] [rawText o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
+                td [] [o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
                 td [] [rawText (string o.author)]
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]

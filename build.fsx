@@ -29,6 +29,9 @@ Target "Publish" (fun _ ->
     prc.StartInfo.FileName <- "docker"
     prc.StartInfo.Arguments <- "restart ptk"
     prc.StartInfo.CreateNoWindow <- true
+    prc.StartInfo.UseShellExecute  <- false
+    prc.StartInfo.RedirectStandardOutput <- true
+    prc.StartInfo.RedirectStandardError <- true
     prc.Start() |> ignore
 )
 
