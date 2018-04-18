@@ -142,7 +142,7 @@ let layout (content: XmlNode list) =
                            li [][a [_href "#"][i [_class "fa fa-skype"] []]]
                         ]
                     ]
-                    div [_class "sux columns info"][
+                    div [_class "six columns info"][
                         h3 [][rawText "About Keep It Simple"]
                         p [][rawText 
                                 "This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. "
@@ -176,6 +176,11 @@ let layout (content: XmlNode list) =
                     ]
                     p [_class "copyright"][rawText """&copy; Copyright 2014 Keep It Simple. &nbsp; Design by <a title="3615" href="#">3615</a>."""]
                 ] //end row
+                div [_id "go-top"][
+                    a [_class "smoothscroll"; _title "Back to Top"; _href "#top"][
+                        i [_class "fa fa-chevron-up"] []
+                    ]
+                ]
             ] //end footer
 
             yield script [_type "text/javascript"; _src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"] []            
