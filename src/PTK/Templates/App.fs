@@ -11,13 +11,13 @@ let layout (content: XmlNode list) =
             meta [_name "description"; _content "Personal tool kit"]
             meta [_name "author"; _content "3615"]
 
-            link [_rel "stylesheet"; _href "css/default.css" ]
-            link [_rel "stylesheet"; _href "css/layout.css" ]
-            link [_rel "stylesheet"; _href "css/media-queries.css" ]
+            link [_rel "stylesheet"; _href "/css/default.css" ]
+            link [_rel "stylesheet"; _href "/css/layout.css" ]
+            link [_rel "stylesheet"; _href "/css/media-queries.css" ]
 
             script [_src "js/modernizr.js"] []
 
-            link [_rel "shortcut icon"; _href "favicon.png"]
+            link [_rel "shortcut icon"; _href "/favicon.png"]
         ]
         body [] [
             yield header [ _id "top" ] [
@@ -185,7 +185,7 @@ let layout (content: XmlNode list) =
 
             yield script [_type "text/javascript"; _src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"] []            
             yield script [] [rawText """window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')"""]
-            yield script [_type "text/javascript"; _src "js/jquery-migrate-1.2.1.min.js"] []
-            yield script [_type "text/javascript"; _src "js/main.js"] []
+            yield script [_type "text/javascript"; _src "/js/jquery-migrate-1.2.1.min.js"] []
+            yield script [_type "text/javascript"; _src "/js/main.js"] []
         ]
     ]
