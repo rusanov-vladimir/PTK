@@ -25,30 +25,30 @@ let layout (content: XmlNode list) =
                     div [_class "header-content twelve columns"] [
                         h1 [_id "logo-text"] [
                             a [_href "/"; _title "ad"] [
-                                rawText "Keep It Simple."
+                                encodedText "Keep It Simple."
                             ]
                         ]
                         p [_id "intro"] [
-                            rawText "Put your awesome slogan here..."
+                            encodedText "Put your awesome slogan here..."
                         ]
                     ]
                 ]
                 nav [_id "nav-wrap"] [
-                    a [_class "mobile-btn"; _href "#nav-wrap"; _title "Show navigation"][rawText "Show Menu" ]
-                    a [_class "mobile-btn"; _href "#n"; _title "Hide navigation"][rawText "Hide Menu" ]
+                    a [_class "mobile-btn"; _href "#nav-wrap"; _title "Show navigation"][encodedText "Show Menu" ]
+                    a [_class "mobile-btn"; _href "#n"; _title "Hide navigation"][encodedText "Hide Menu" ]
                     div [_class "row"] [
                         ul [_id "nav"; _class "nav"][
                             li [_class "current"] [
-                                a [_href "/"] [rawText "Home"]
+                                a [_href "/"] [encodedText "Home"]
                             ]
                             li [] [
-                                a [_href "/mems"] [rawText "Memories3615"]
+                                a [_href "/mems"] [encodedText "Memories3615"]
                             ]
                             li [] [
-                                a [_href "/tools"] [rawText "Tool kit"]
+                                a [_href "/tools"] [encodedText "Tool kit"]
                             ]
                             li [] [
-                                a [_href "/contacts"] [rawText "Contacts"]
+                                a [_href "/contacts"] [encodedText "Contacts"]
                             ]
                         ]
                     ]
@@ -61,7 +61,7 @@ let layout (content: XmlNode list) =
                     ]
                     div [_id "sidebar"; _class "four columns"][
                         div [_class "widget widget_search"][                        
-                            h3 [][rawText "Search"]
+                            h3 [][encodedText "Search"]
                             form [_action "#"][
                                 input [_type "text"; _value "Search here..."; _class "text-search"]
                                 input [_type "submit"; _value ""; _class "submit-search"]
@@ -69,59 +69,59 @@ let layout (content: XmlNode list) =
                         ]
                         div [_class "widget widget_categories group"][
                             //todo: Get real categories
-                            h3 [][rawText "Categories."]
+                            h3 [][encodedText "Categories."]
                             ul [][
                                 li [][
-                                    a [_href "#"][rawText "Wordpress"] 
-                                    rawText "(2)"
+                                    a [_href "#"][encodedText "Wordpress"] 
+                                    encodedText "(2)"
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Ghost"] 
-                                    rawText "(14)"
+                                    a [_href "#"][encodedText "Ghost"] 
+                                    encodedText "(14)"
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Joomla"] 
-                                    rawText "(5)"
+                                    a [_href "#"][encodedText "Joomla"] 
+                                    encodedText "(5)"
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Drupal"] 
-                                    rawText "(3)"
+                                    a [_href "#"][encodedText "Drupal"] 
+                                    encodedText "(3)"
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Magento"] 
-                                    rawText "(2)"
+                                    a [_href "#"][encodedText "Magento"] 
+                                    encodedText "(2)"
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Uncategorized"] 
-                                    rawText "(9)"
+                                    a [_href "#"][encodedText "Uncategorized"] 
+                                    encodedText "(9)"
                                 ]
                             ]
                         ]
                         div [_class "widget widget_tags"][
                             //todo: Get real tags
-                            h3 [][rawText "Post Tags."]
+                            h3 [][encodedText "Post Tags."]
                             div [_class "tagcloud group"][
-                                a [_href "#"][rawText "Corporate"]
-                                a [_href "#"][rawText "Onepage"]
-                                a [_href "#"][rawText "Agency"]
-                                a [_href "#"][rawText "Multipurpose"]
-                                a [_href "#"][rawText "Blog"]
-                                a [_href "#"][rawText "Landing Page"]
-                                a [_href "#"][rawText "Resume"]
+                                a [_href "#"][encodedText "Corporate"]
+                                a [_href "#"][encodedText "Onepage"]
+                                a [_href "#"][encodedText "Agency"]
+                                a [_href "#"][encodedText "Multipurpose"]
+                                a [_href "#"][encodedText "Blog"]
+                                a [_href "#"][encodedText "Landing Page"]
+                                a [_href "#"][encodedText "Resume"]
                             ]
                         ]
                         div [_class "widget widget_popular"] [
                             //todo: Get real posts
-                            h3 [][rawText "Popular Post."]
+                            h3 [][encodedText "Popular Post."]
                             ul [_class "link-list"][
                                 li [][
-                                    a [_href "#"][rawText "Sint cillum consectetur voluptate."] 
+                                    a [_href "#"][encodedText "Sint cillum consectetur voluptate."] 
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Lorem ipsum Ullamco commodo."] 
+                                    a [_href "#"][encodedText "Lorem ipsum Ullamco commodo."] 
                                 ]
                                 li [][
-                                    a [_href "#"][rawText "Fugiat minim eiusmod do."] 
+                                    a [_href "#"][encodedText "Fugiat minim eiusmod do."] 
                                 ]
                             ]
                         ]
@@ -143,35 +143,35 @@ let layout (content: XmlNode list) =
                         ]
                     ]
                     div [_class "six columns info"][
-                        h3 [][rawText "About Keep It Simple"]
-                        p [][rawText 
+                        h3 [][encodedText "About Keep It Simple"]
+                        p [][encodedText 
                                 "This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. "
                             ]
-                        p [][rawText 
+                        p [][encodedText 
                                 "Lorem ipsum Sed nulla deserunt voluptate elit occaecat culpa cupidatat sit irure sint sint incididunt cupidatat esse in Ut sed commodo tempor consequat culpa fugiat incididunt."
                             ]
                     ]
                     div [_class "four columns"][
-                        h3 [][rawText "Photostream"]
+                        h3 [][encodedText "Photostream"]
                         ul [_class"photostream group"][
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
                         ]
                     ]
                     div [_class "two columns"][
-                        h3 [_class "social"][rawText "Navigate"]
+                        h3 [_class "social"][encodedText "Navigate"]
                         ul [_class "navigate group"][
-                            li [][a [_href "#"][rawText "Home"]]
-                            li [][a [_href "#"][rawText "Blog"]]
-                            li [][a [_href "#"][rawText "Demo"]]
-                            li [][a [_href "#"][rawText "Archives"]]
-                            li [][a [_href "#"][rawText "About"]]
+                            li [][a [_href "#"][encodedText "Home"]]
+                            li [][a [_href "#"][encodedText "Blog"]]
+                            li [][a [_href "#"][encodedText "Demo"]]
+                            li [][a [_href "#"][encodedText "Archives"]]
+                            li [][a [_href "#"][encodedText "About"]]
                         ]
                     ]
                     p [_class "copyright"][rawText """&copy; Copyright 2014 Keep It Simple. &nbsp; Design by <a title="3615" href="#">3615</a>."""]
