@@ -25,11 +25,11 @@ let layout (content: XmlNode list) =
                     div [_class "header-content twelve columns"] [
                         h1 [_id "logo-text"] [
                             a [_href "/"; _title "ad"] [
-                                encodedText "Keep It Simple."
+                                encodedText "Welcome to personal tool kit!"
                             ]
                         ]
                         p [_id "intro"] [
-                            encodedText "Put your awesome slogan here..."
+                            encodedText "Place where I store my stuff..."
                         ]
                     ]
                 ]

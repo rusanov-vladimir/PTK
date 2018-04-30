@@ -4,60 +4,43 @@ open Giraffe.GiraffeViewEngine
 
 let index =
     [
-        section [_class "hero is-primary"] [
-            div [_class "hero-body"] [
-                div [_class "container"] [
-                    div [_class "columns is-vcentered"] [
-                        div [_class "column"] [
-                            p [_class "title"] [rawText "Welcome to personal tool kit!"]
-                            p [_class "subtitle"] [rawText "Place where I store my stuff!"]
-                        ]
+        div [_class "row section-head"][
+            div [_class "twelve columns"][
+                h1 [] [encodedText "Favorite links"]
+            ]            
+        ]
+        div [_class "row add-bottom"][
+            hr []
+            div [_class "twelve columns add-bottom"][
+                p [] [
+                    a [_href "#"] [
+                        img [_width "120"; _height "120"; _class "pull-left"; _alt "sample-image"; _src "images/sample-image.jpg"]
+                        EncodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
+              			   Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu
+              			   posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum
+              			   odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra
+              			   condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque.
+              			   posuere nunc justo tempus leo." 
                     ]
                 ]
             ]
         ]
-        // section [_class "section"] [
-        //     h1 [_class "title"] [rawText "Resources"]
-        //     div [_class "tile is-ancestor"] [
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-primary box"] [
-        //                 a [_class "title "] [rawText "Guides (WIP)"]
-        //             ]
-        //         ]
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-info box"] [
-        //                 a [_class "title"] [rawText "Documentation (WIP)"]
-        //             ]
-        //         ]
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-warning box"] [
-        //                 a [_class "title"; _href "https://github.com/SaturnFramework/Saturn" ] [rawText "Source"]
-        //             ]
-        //         ]
-
-        //     ]
-        // ]
-        // section [_class "section"] [
-        //     h1 [_class "title"] [rawText "Help"]
-        //     div [_class "tile is-ancestor"] [
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-link box"] [
-        //                 a [_class "title"; _href "https://github.com/SaturnFramework/Saturn/issues"] [rawText "GitHub issues"]
-        //             ]
-        //         ]
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-danger box"] [
-        //                 a [_class "title"; _href "https://gitter.im/SaturnFramework/Saturn"] [rawText "Gitter"]
-        //             ]
-        //         ]
-        //         div [_class "tile is-parent is-4"] [
-        //             article [_class "tile is-child notification is-success box"] [
-        //                 a [_class "title"; _href "https://safe-stack.github.io/"] [rawText "SAFE Stack"]
-        //             ]
-        //         ]
-
-        //     ]
-        // ]
+        div [_class "row add-bottom"][
+            hr []
+            div [_class "twelve columns add-bottom"][
+                p [] [
+                    a [_href "#"] [
+                        img [_width "120"; _height "120"; _class "pull-left"; _alt "sample-image"; _src "images/sample-image.jpg"]
+                        EncodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
+              			   Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu
+              			   posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum
+              			   odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra
+              			   condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque.
+              			   posuere nunc justo tempus leo." 
+                    ]
+                ]
+            ]
+        ]
     ]
 
 let layout =
