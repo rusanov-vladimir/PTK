@@ -1,5 +1,12 @@
 namespace Mems
 open System
+open FSharpVSPowerTools
+
+[<CLIMutable>]
+type Category = {
+  id: int
+  title: string
+}
 
 [<CLIMutable>]
 type Mem = {
@@ -7,6 +14,7 @@ type Mem = {
   title: string
   content: string
   author: string
+  categoryId: int 
 }
 
 module Validation =

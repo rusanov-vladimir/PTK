@@ -20,7 +20,21 @@ module Controller =
 
   let showAction (ctx: HttpContext, id : string) =
     task {
+
       let cnf = Controller.getConfig ctx
+      let! result3 = Database.deleteCategories cnf.connectionString
+
+      let category = {id = 1;title = "test"}
+      let! result2 = Database.insertCategory cnf.connectionString category
+      match result2 with
+      | Ok _ -> ()
+        //return! Controller.redirect ctx (Links.index ctx)
+      | Error ex ->
+        return raise ex
+
+
+
+      
       let! result = Database.getById cnf.connectionString id
       match result with
       | Ok (Some result) ->

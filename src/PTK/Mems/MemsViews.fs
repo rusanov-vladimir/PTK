@@ -18,6 +18,7 @@ module Views =
               th [] [rawText "Title"]
               th [] [rawText "Content"]
               th [] [rawText "Author"]
+              th [] [rawText "CategoryId"]
               th [] []
             ]
           ]
@@ -28,6 +29,7 @@ module Views =
                 td [] [rawText (string o.title)]
                 td [] [o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
                 td [] [rawText (string o.author)]
+                td [] [rawText (string o.categoryId)]
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]
                   a [_class "button is-text"; _href (Links.edit ctx (string o.id) )] [rawText "Edit"]
@@ -53,6 +55,7 @@ module Views =
           li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
           li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
+          li [] [ strong [] [rawText "CategoryId: "]; rawText (string o.categoryId) ]
         ]
         a [_class "button is-text"; _href (Links.edit ctx (string o.id))] [rawText "Edit"]
         a [_class "button is-text"; _href (Links.index ctx )] [rawText "Back"]
@@ -100,6 +103,7 @@ module Views =
           yield field (fun i -> (string i.title)) "Title" "title" 
           yield field (fun i -> (string i.content)) "Content" "content" 
           yield field (fun i -> (string i.author)) "Author" "author" 
+          yield field (fun i -> (string i.categoryId)) "CategoryId" "categoryId" 
           yield buttons
         ]
       ]
