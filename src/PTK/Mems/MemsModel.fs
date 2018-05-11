@@ -14,7 +14,7 @@ type Mem = {
   title: string
   content: string
   author: string
-  categoryId: int 
+  category: Category 
 }
 
 module Validation =

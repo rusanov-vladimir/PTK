@@ -7,7 +7,13 @@ open System.Threading.Tasks
 module Database =
   let getAll connectionString : Task<Result<Mem seq, exn>> =
     use connection = new SqliteConnection(connectionString)
-    query connection "SELECT id, title, content, author, categoryId FROM Mems" None
+    let sql = "SELECT 
+                  Mems.id, Mems.title, Mems.content, Mems.author, Categories.id, Categories.title 
+                FROM Mems
+                JOIN Categories ON Mems.categoryId = Categories.id"
+    let hz = query connection sql None
+    hz
+
 
   let getById connectionString id : Task<Result<Mem option, exn>> =
     use connection = new SqliteConnection(connectionString)
@@ -24,14 +30,3 @@ module Database =
   let delete connectionString id : Task<Result<int,exn>> =
     use connection = new SqliteConnection(connectionString)
     execute connection "DELETE FROM Mems WHERE id=@id" (dict ["id" => id])
-
-
-
-  let insertCategory connectionString v : Task<Result<int,exn>> =
-    use connection = new SqliteConnection(connectionString)
-    execute connection "INSERT INTO Categories(id, title) VALUES (@id, @title)" v
-
-  let deleteCategories connectionString : Task<Result<int,exn>> =
-    use connection = new SqliteConnection(connectionString)
-    execute connection "DELETE FROM Categories" null
-

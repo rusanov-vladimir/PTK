@@ -28,6 +28,18 @@ let query (connection:#DbConnection) (sql:string) (parameters:IDictionary<string
         | ex -> return Error ex
     }
 
+let queryJoin<'T1, 'T2> (connection:#DbConnection) (sql:string) (parameters:IDictionary<string, obj> option) () =
+    task {
+        try
+            let! res =
+                match parameters with
+                | Some p -> connection.QueryAsync<'T1>(sql, p)
+                | None -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, (fun x-> x))
+            return Ok res
+        with
+        | ex -> return Error ex
+    }    
+
 let querySingle (connection:#DbConnection) (sql:string) (parameters:IDictionary<string, obj> option) =
     task {
         try

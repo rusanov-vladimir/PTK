@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -7,20 +6,17 @@
   <ItemGroup>
     <Compile Include="Database.fs" />
     <Compile Include="Config.fs" />
-
-    <Compile Include="Templates\App.fs" />
-    <Compile Include="Templates\Index.fs" />
-    <Compile Include="Templates\NotFound.fs" />
-    <Compile Include="Templates\InternalError.fs" />
-
-    <Compile Include="Mems\MemsModel.fs" />
-    <Compile Include="Mems\MemsViews.fs" />
-    <Compile Include="Mems\MemsRepository.fs" />
-    <Compile Include="Mems\MemsController.fs" />
+    <Compile Include="Templates/App.fs" />
+    <Compile Include="Templates/Index.fs" />
+    <Compile Include="Templates/NotFound.fs" />
+    <Compile Include="Templates/InternalError.fs" />
+    <Compile Include="Mems/MemsModel.fs" />
+    <Compile Include="Mems/MemsViews.fs" />
+    <Compile Include="Mems/MemsRepository.fs" />
+    <Compile Include="Mems/MemsController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
-
-    <Content Include="static\**\*.*">
+    <Content Include="static/**/*.*">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="*.sqlite">
