@@ -3,21 +3,24 @@ namespace Mems
 open Database
 open Microsoft.Data.Sqlite
 open System.Threading.Tasks
+open Mems
 
 module Database =
+  let combine  =
+    System.Func<Mem, Category, Mem>(fun (m: Mem) (c:Category) -> {m with category=c} )
+  
+  let memsJoinCats ="
+      SELECT 
+        Mems.id, Mems.title, Mems.content, Mems.author, Categories.id, Categories.title 
+      FROM Mems
+      JOIN Categories ON Mems.categoryId = Categories.id" 
   let getAll connectionString : Task<Result<Mem seq, exn>> =
     use connection = new SqliteConnection(connectionString)
-    let sql = "SELECT 
-                  Mems.id, Mems.title, Mems.content, Mems.author, Categories.id, Categories.title 
-                FROM Mems
-                JOIN Categories ON Mems.categoryId = Categories.id"
-    let hz = query connection sql None
-    hz
-
+    queryJoin2<Mem, Category> connection memsJoinCats combine None
 
   let getById connectionString id : Task<Result<Mem option, exn>> =
     use connection = new SqliteConnection(connectionString)
-    querySingle connection "SELECT id, title, content, author, categoryId FROM Mems WHERE id=@id" (Some <| dict ["id" => id])
+    querySingle connection (memsJoinCats + " WHERE Mems.id=@id") (Some <| dict ["id" => id])
 
   let update connectionString v : Task<Result<int,exn>> =
     use connection = new SqliteConnection(connectionString)

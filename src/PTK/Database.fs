@@ -28,13 +28,13 @@ let query (connection:#DbConnection) (sql:string) (parameters:IDictionary<string
         | ex -> return Error ex
     }
 
-let queryJoin<'T1, 'T2> (connection:#DbConnection) (sql:string) (parameters:IDictionary<string, obj> option) () =
+let queryJoin2<'T1, 'T2> (connection:#DbConnection) (sql:string) (combi:System.Func<'T1, 'T2, 'T1>) (parameters:IDictionary<string, obj> option) =
     task {
         try
             let! res =
                 match parameters with
-                | Some p -> connection.QueryAsync<'T1>(sql, p)
-                | None -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, (fun x-> x))
+                | Some p -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, combi, p)
+                | None -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, combi)
             return Ok res
         with
         | ex -> return Error ex
