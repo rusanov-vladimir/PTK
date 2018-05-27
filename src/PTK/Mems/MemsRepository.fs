@@ -3,6 +3,7 @@ namespace Mems
 open Database
 open Microsoft.Data.Sqlite
 open System.Threading.Tasks
+open FSharp.Control.Tasks.ContextInsensitive
 open Mems
 
 module Database =
@@ -18,9 +19,11 @@ module Database =
     use connection = new SqliteConnection(connectionString)
     queryJoin2<Mem, Category> connection memsJoinCats combine None
 
+  
+
   let getById connectionString id : Task<Result<Mem option, exn>> =
     use connection = new SqliteConnection(connectionString)
-    querySingle connection (memsJoinCats + " WHERE Mems.id=@id") (Some <| dict ["id" => id])
+    singleJoin2<Mem, Category> connection (memsJoinCats + " WHERE Mems.id=@id") combine (Some <| dict ["id" => id])
 
   let update connectionString v : Task<Result<int,exn>> =
     use connection = new SqliteConnection(connectionString)

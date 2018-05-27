@@ -4,6 +4,7 @@ open Dapper
 open System.Data.Common
 open System.Collections.Generic
 open FSharp.Control.Tasks.ContextInsensitive
+open FSharp.Markdown
 
 let inline (=>) k v = k, box v
 
@@ -54,3 +55,19 @@ let querySingle (connection:#DbConnection) (sql:string) (parameters:IDictionary<
         with
         | ex -> return Error ex
     }
+
+let singleJoin2<'T1, 'T2> (connection:#DbConnection) (sql:string) (combi:System.Func<'T1, 'T2, 'T1>) (parameters:IDictionary<string, obj> option) =
+    task {
+        try
+            let! res =
+                match parameters with
+                | Some p -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, combi, p)
+                | None -> connection.QueryAsync<'T1, 'T2, 'T1>(sql, combi)
+            let res2 = 
+                match res with
+                | x when (List.ofSeq x |> List.length = 1) -> Some (Seq.find (fun _->true) x)
+                | _ -> None
+            return Ok res2
+        with
+        | ex -> return Error ex
+    }    
