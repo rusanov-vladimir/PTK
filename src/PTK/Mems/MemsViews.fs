@@ -4,6 +4,7 @@ open Microsoft.AspNetCore.Http
 open Giraffe.GiraffeViewEngine
 open Saturn
 open FSharp.Markdown
+open Categories
 
 module Views =
   let index (ctx : HttpContext) (objs : Mem list) =
@@ -63,7 +64,7 @@ module Views =
     ]
     App.layout ([section [_class "section"] cnt])
 
-  let private form (ctx: HttpContext) (o: Mem option) (validationResult : Map<string, string>) isUpdate =
+  let private form (ctx: HttpContext) (o: Mem option) (cats: Category seq)(validationResult : Map<string, string>) isUpdate =
     let validationMessage =
       div [_class "notification is-danger"] [
         a [_class "delete"; attr "aria-label" "delete"] []
@@ -110,8 +111,8 @@ module Views =
     ]
     App.layout ([section [_class "section"] cnt])
 
-  let add (ctx: HttpContext) (o: Mem option) (validationResult : Map<string, string>)=
-    form ctx o validationResult false
+  let add (ctx: HttpContext) (o: Mem option) (cats: Category seq) (validationResult : Map<string, string>)=
+    form ctx o cats validationResult false
 
-  let edit (ctx: HttpContext) (o: Mem) (validationResult : Map<string, string>) =
-    form ctx (Some o) validationResult true
+  let edit (ctx: HttpContext) (o: Mem) (cats: Category seq) (validationResult : Map<string, string>) =
+    form ctx (Some o) cats validationResult true

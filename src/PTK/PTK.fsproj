@@ -10,6 +10,10 @@
     <Compile Include="Templates/Index.fs" />
     <Compile Include="Templates/NotFound.fs" />
     <Compile Include="Templates/InternalError.fs" />
+
+    <Compile Include="Categories/CategoryModel.fs" />
+    <Compile Include="Categories/CategoryRepository.fs" />
+
     <Compile Include="Mems/MemsModel.fs" />
     <Compile Include="Mems/MemsViews.fs" />
     <Compile Include="Mems/MemsRepository.fs" />

@@ -4,6 +4,7 @@ open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
+open Categories
 
 module Controller =
 
@@ -22,8 +23,8 @@ module Controller =
     task {
 
       let cnf = Controller.getConfig ctx
-      let! result = Database.getById cnf.connectionString id
-      match result with
+      let! mems = Database.getById cnf.connectionString id
+      match mems with
       | Ok (Some result) ->
         return! Controller.renderXml ctx (Views.show ctx result)
       | Ok None ->
@@ -33,15 +34,28 @@ module Controller =
     }
 
   let addAction (ctx: HttpContext) =
-    Controller.renderXml ctx (Views.add ctx None Map.empty)
+    task{
+      let cnf = Controller.getConfig ctx        
+      let! catsRes = Database.getAllCategories cnf.connectionString
+      let cats = 
+        match catsRes with
+        | Ok x -> x
+        | Error ex -> raise ex
+      return! Controller.renderXml ctx (Views.add ctx None cats Map.empty )
+    }
 
   let editAction (ctx: HttpContext, id : string) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.getById cnf.connectionString id
+      let! catsRes = Database.getAllCategories cnf.connectionString
+      let cats = 
+        match catsRes with
+        | Ok x -> x
+        | Error ex -> raise ex
       match result with
       | Ok (Some result) ->
-        return! Controller.renderXml ctx (Views.edit ctx result Map.empty)
+        return! Controller.renderXml ctx (Views.edit ctx result cats Map.empty)
       | Ok None ->
         return! Controller.renderXml ctx NotFound.layout
       | Error ex ->
@@ -62,7 +76,13 @@ module Controller =
         | Error ex ->
           return raise ex
       else
-        return! Controller.renderXml ctx (Views.add ctx (Some input) validateResult)
+        let cnf = Controller.getConfig ctx
+        let! catsRes = Database.getAllCategories cnf.connectionString
+        let cats = 
+          match catsRes with
+          | Ok x -> x
+          | Error ex -> raise ex
+        return! Controller.renderXml ctx (Views.add ctx (Some input) cats validateResult)
     }
 
   let updateAction (ctx: HttpContext, id : string) =
@@ -78,7 +98,13 @@ module Controller =
         | Error ex ->
           return raise ex
       else
-        return! Controller.renderXml ctx (Views.edit ctx input validateResult)
+        let cnf = Controller.getConfig ctx
+        let! catsRes = Database.getAllCategories cnf.connectionString
+        let cats = 
+          match catsRes with
+          | Ok x -> x
+          | Error ex -> raise ex
+        return! Controller.renderXml ctx (Views.edit ctx input cats validateResult)
     }
 
   let deleteAction (ctx: HttpContext, id : string) =

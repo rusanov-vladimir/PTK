@@ -1,12 +1,8 @@
 namespace Mems
 open System
 open FSharpVSPowerTools
+open Categories
 
-[<CLIMutable>]
-type Category = {
-  id: int
-  title: string
-}
 
 [<CLIMutable>]
 type Mem = {

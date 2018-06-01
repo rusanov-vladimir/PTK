@@ -5,6 +5,7 @@ open Microsoft.Data.Sqlite
 open System.Threading.Tasks
 open FSharp.Control.Tasks.ContextInsensitive
 open Mems
+open Categories
 
 module Database =
   let combine  =
