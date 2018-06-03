@@ -6,6 +6,8 @@ open Saturn
 open FSharp.Markdown
 open Categories
 
+type ComboViewModel = { Id: int; Name: string }
+
 module Views =
   let index (ctx : HttpContext) (objs : Mem list) =
     let cnt = [
@@ -84,6 +86,21 @@ module Views =
         if validationResult.ContainsKey key then
           yield p [_class "help is-danger"] [rawText validationResult.[key]]
       ]
+      
+    let dropdown selector lbl key options = 
+       div [_class "field"] [
+        yield label [_class "label"] [rawText (string lbl)]
+        yield div [_class "control has-icons-right"] [
+          yield select [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _value (defaultArg (o |> Option.map selector) ""); _name key ; _type "text" ] 
+                    (options |> Seq.map (fun x-> option [_value (string x.Id)][rawText x.Name]) |> List.ofSeq)
+          if validationResult.ContainsKey key then
+            yield span [_class "icon is-small is-right"] [
+              i [_class "fas fa-exclamation-triangle"] []
+            ]
+        ]
+        if validationResult.ContainsKey key then
+          yield p [_class "help is-danger"] [rawText validationResult.[key]]
+      ]
 
     let buttons =
       div [_class "field is-grouped"] [
@@ -104,7 +121,7 @@ module Views =
           yield field (fun i -> (string i.title)) "Title" "title" 
           yield field (fun i -> (string i.content)) "Content" "content" 
           yield field (fun i -> (string i.author)) "Author" "author" 
-          yield field (fun i -> (string i.category.id)) "CategoryId" "categoryId" 
+          yield dropdown (fun i -> (string i.category.id)) "CategoryId" "category.id" (cats |> Seq.map (fun x-> {Id = x.id; Name= x.title}))
           yield buttons
         ]
       ]
