@@ -99,10 +99,12 @@ module Controller =
 
   let updateAction (ctx: HttpContext, id : string) =
     task {
-      let! input = Controller.getModel<Mem> ctx
-      let validateResult = Validation.validate input
+      let cnf = Controller.getConfig ctx
+      let! input = Controller.getModel<MemViewModel> ctx
+      let! catRes = Database.getCategoryById  cnf.connectionString (string input.categoryId)
+      let mem = mapToDomain (input, catRes)
+      let validateResult = Validation.validate mem
       if validateResult.IsEmpty then
-        let cnf = Controller.getConfig ctx
         let! result = Database.update cnf.connectionString input
         match result with
         | Ok _ ->
@@ -110,13 +112,13 @@ module Controller =
         | Error ex ->
           return raise ex
       else
-        let cnf = Controller.getConfig ctx
+
         let! catsRes = Database.getAllCategories cnf.connectionString
         let cats = 
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Views.edit ctx input cats validateResult)
+        return! Controller.renderXml ctx (Views.edit ctx mem cats validateResult)
     }
 
   let deleteAction (ctx: HttpContext, id : string) =
