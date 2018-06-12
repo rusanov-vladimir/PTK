@@ -62,13 +62,26 @@ module Controller =
         return raise ex
     }
 
+  let mapToDomain (input:MemViewModel, catRes) =
+    let maybeCat = 
+        match catRes with
+        | Ok x ->x
+        | Error ex -> raise ex
+    let cat = 
+        match maybeCat with
+        | Some cat ->  cat
+        | None -> raise (System.ArgumentException("Category not found!"))
+
+    {id = input.id; title = input.title; category = cat; author = input.author; content = input.content }
+
   let createAction (ctx: HttpContext) =
     task {
-      let! input = Controller.getModel<Mem> ctx
-      let validateResult = Validation.validate input
+      let cnf = Controller.getConfig ctx
+      let! input = Controller.getModel<MemViewModel> ctx
+      let! catRes = Database.getCategoryById  cnf.connectionString (string input.categoryId)
+      let mem = mapToDomain (input, catRes)
+      let validateResult = Validation.validate mem
       if validateResult.IsEmpty then
-
-        let cnf = Controller.getConfig ctx
         let! result = Database.insert cnf.connectionString input
         match result with
         | Ok _ ->
@@ -76,13 +89,12 @@ module Controller =
         | Error ex ->
           return raise ex
       else
-        let cnf = Controller.getConfig ctx
         let! catsRes = Database.getAllCategories cnf.connectionString
         let cats = 
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Views.add ctx (Some input) cats validateResult)
+        return! Controller.renderXml ctx (Views.add ctx (Some mem) cats validateResult)
     }
 
   let updateAction (ctx: HttpContext, id : string) =

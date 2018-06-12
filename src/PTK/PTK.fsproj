@@ -14,6 +14,7 @@
     <Compile Include="Categories/CategoryModel.fs" />
     <Compile Include="Categories/CategoryRepository.fs" />
 
+    <Compile Include="Mems/MemsViewModel.fs" />
     <Compile Include="Mems/MemsModel.fs" />
     <Compile Include="Mems/MemsViews.fs" />
     <Compile Include="Mems/MemsRepository.fs" />

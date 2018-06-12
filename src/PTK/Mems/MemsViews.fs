@@ -121,7 +121,7 @@ module Views =
           yield field (fun i -> (string i.title)) "Title" "title" 
           yield field (fun i -> (string i.content)) "Content" "content" 
           yield field (fun i -> (string i.author)) "Author" "author" 
-          yield dropdown (fun i -> (string i.category.id)) "CategoryId" "category.id" (cats |> Seq.map (fun x-> {Id = x.id; Name= x.title}))
+          yield dropdown (fun i -> (string i.category.id)) "CategoryId" "categoryId" (cats |> Seq.map (fun x-> {Id = x.id; Name= x.title}))
           yield buttons
         ]
       ]

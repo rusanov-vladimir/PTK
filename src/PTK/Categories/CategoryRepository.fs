@@ -19,9 +19,9 @@ module Database =
 
   
 
-  // let getById connectionString id : Task<Result<Mem option, exn>> =
-  //   use connection = new SqliteConnection(connectionString)
-  //   singleJoin2<Mem, Category> connection (memsJoinCats + " WHERE Mems.id=@id") combine (Some <| dict ["id" => id])
+  let getCategoryById connectionString id : Task<Result<Category option, exn>> =
+    use connection = new SqliteConnection(connectionString)
+    querySingle connection (categoriesSql + " WHERE Categories.id=@id") (Some <| dict ["id" => id])
 
   // let update connectionString v : Task<Result<int,exn>> =
   //   use connection = new SqliteConnection(connectionString)
