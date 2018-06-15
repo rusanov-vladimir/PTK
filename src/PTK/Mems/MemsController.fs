@@ -4,7 +4,6 @@ open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Saturn
-open Categories
 
 module Controller =
 
@@ -23,10 +22,10 @@ module Controller =
     task {
 
       let cnf = Controller.getConfig ctx
-      let! mems = Database.getById cnf.connectionString id
+      let! mems =Database.getById cnf.connectionString id
       match mems with
       | Ok (Some result) ->
-        return! Controller.renderXml ctx (Views.show ctx result)
+        return! Controller.renderXml ctx (Mems.Views.show ctx result)
       | Ok None ->
         return! Controller.renderXml ctx NotFound.layout
       | Error ex ->
@@ -36,26 +35,26 @@ module Controller =
   let addAction (ctx: HttpContext) =
     task{
       let cnf = Controller.getConfig ctx        
-      let! catsRes = Database.getAllCategories cnf.connectionString
+      let! catsRes = Categories.Database.getAll cnf.connectionString
       let cats = 
         match catsRes with
         | Ok x -> x
         | Error ex -> raise ex
-      return! Controller.renderXml ctx (Views.add ctx None cats Map.empty )
+      return! Controller.renderXml ctx (Mems.Views.add ctx None cats Map.empty )
     }
 
   let editAction (ctx: HttpContext, id : string) =
     task {
       let cnf = Controller.getConfig ctx
-      let! result = Database.getById cnf.connectionString id
-      let! catsRes = Database.getAllCategories cnf.connectionString
+      let! result =Database.getById cnf.connectionString id
+      let! catsRes = Categories.Database.getAll cnf.connectionString
       let cats = 
         match catsRes with
         | Ok x -> x
         | Error ex -> raise ex
       match result with
       | Ok (Some result) ->
-        return! Controller.renderXml ctx (Views.edit ctx result cats Map.empty)
+        return! Controller.renderXml ctx (Mems.Views.edit ctx result cats Map.empty)
       | Ok None ->
         return! Controller.renderXml ctx NotFound.layout
       | Error ex ->
@@ -78,9 +77,9 @@ module Controller =
     task {
       let cnf = Controller.getConfig ctx
       let! input = Controller.getModel<MemViewModel> ctx
-      let! catRes = Database.getCategoryById  cnf.connectionString (string input.categoryId)
+      let! catRes = Categories.Database.getById  cnf.connectionString (string input.categoryId)
       let mem = mapToDomain (input, catRes)
-      let validateResult = Validation.validate mem
+      let validateResult =Validation.validate mem
       if validateResult.IsEmpty then
         let! result = Database.insert cnf.connectionString input
         match result with
@@ -89,21 +88,21 @@ module Controller =
         | Error ex ->
           return raise ex
       else
-        let! catsRes = Database.getAllCategories cnf.connectionString
+        let! catsRes = Categories.Database.getAll cnf.connectionString
         let cats = 
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Views.add ctx (Some mem) cats validateResult)
+        return! Controller.renderXml ctx (Mems.Views.add ctx (Some mem) cats validateResult)
     }
 
   let updateAction (ctx: HttpContext, id : string) =
     task {
       let cnf = Controller.getConfig ctx
       let! input = Controller.getModel<MemViewModel> ctx
-      let! catRes = Database.getCategoryById  cnf.connectionString (string input.categoryId)
+      let! catRes = Categories.Database.getById  cnf.connectionString (string input.categoryId)
       let mem = mapToDomain (input, catRes)
-      let validateResult = Validation.validate mem
+      let validateResult =Validation.validate mem
       if validateResult.IsEmpty then
         let! result = Database.update cnf.connectionString input
         match result with
@@ -113,12 +112,12 @@ module Controller =
           return raise ex
       else
 
-        let! catsRes = Database.getAllCategories cnf.connectionString
+        let! catsRes = Categories.Database.getAll cnf.connectionString
         let cats = 
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Views.edit ctx mem cats validateResult)
+        return! Controller.renderXml ctx (Mems.Views.edit ctx mem cats validateResult)
     }
 
   let deleteAction (ctx: HttpContext, id : string) =

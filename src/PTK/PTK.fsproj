@@ -11,8 +11,11 @@
     <Compile Include="Templates/NotFound.fs" />
     <Compile Include="Templates/InternalError.fs" />
 
-    <Compile Include="Categories/CategoryModel.fs" />
-    <Compile Include="Categories/CategoryRepository.fs" />
+  
+    <Compile Include="Categories\CategoriesModel.fs" />
+    <Compile Include="Categories\CategoriesViews.fs" />
+    <Compile Include="Categories\CategoriesRepository.fs" />
+    <Compile Include="Categories\CategoriesController.fs" />
 
     <Compile Include="Mems/MemsViewModel.fs" />
     <Compile Include="Mems/MemsModel.fs" />

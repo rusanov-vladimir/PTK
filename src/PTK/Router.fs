@@ -24,6 +24,7 @@ let browserRouter = scope {
 
     forward "" defaultView //Use the default view
     forward "/mems" Mems.Controller.resource
+    forward "/cats" Categories.Controller.resource
 }
 
 //Other scopes may use different pipelines and error handlers
