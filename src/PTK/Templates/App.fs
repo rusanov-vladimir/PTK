@@ -15,7 +15,7 @@ let layout (content: XmlNode list) =
             link [_rel "stylesheet"; _href "/css/layout.css" ]
             link [_rel "stylesheet"; _href "/css/media-queries.css" ]
 
-            script [_src "js/modernizr.js"] []
+            script [_src "/js/modernizr.js"] []
 
             link [_rel "shortcut icon"; _href "/favicon.png"]
         ]
@@ -174,7 +174,7 @@ let layout (content: XmlNode list) =
                             li [][a [_href "#"][encodedText "About"]]
                         ]
                     ]
-                    p [_class "copyright"][rawText """&copy; Copyright 2014 Keep It Simple. &nbsp; Design by <a title="3615" href="#">3615</a>."""]
+                    p [_class "copyright"][rawText """&copy; Copyright 2014 Keep It Simple. &nbsp;"""]
                 ] //end row
                 div [_id "go-top"][
                     a [_class "smoothscroll"; _title "Back to Top"; _href "#top"][
@@ -187,5 +187,6 @@ let layout (content: XmlNode list) =
             yield script [] [rawText """window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')"""]
             yield script [_type "text/javascript"; _src "/js/jquery-migrate-1.2.1.min.js"] []
             yield script [_type "text/javascript"; _src "/js/main.js"] []
+            yield script [_src "/app.js"] []
         ]
     ]
