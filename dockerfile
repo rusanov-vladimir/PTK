@@ -1,7 +1,7 @@
 FROM microsoft/aspnetcore-build:2.0 AS build-env
 WORKDIR /app
-ENV HTTP_PROXY "http://proxy-md.ktn.group:3128"
-ENV HTTPS_PROXY "http://proxy-md.ktn.group:3128"
+#ENV HTTP_PROXY "http://proxy-md.ktn.group:3128"
+#ENV HTTPS_PROXY "http://proxy-md.ktn.group:3128"
 
 # Copy fsproj and restore as distinct layers
 COPY . ./
