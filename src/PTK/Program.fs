@@ -15,6 +15,7 @@ let app = application {
     router Router.router
     url "http://0.0.0.0:8085/"
     memory_cache 
+    disable_diagnostics
     use_static "static"
     use_gzip
     use_config (fun _ -> {connectionString = "DataSource=database.sqlite"} ) //TODO: Set development time configuration
