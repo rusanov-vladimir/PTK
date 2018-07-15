@@ -18,7 +18,7 @@ let app = application {
     disable_diagnostics
     use_static "static"
     use_gzip
-    use_config (fun _ -> {connectionString = "DataSource=database.sqlite"} ) //TODO: Set development time configuration
+    use_config (fun _ -> {connectionString = "User ID=postgres;Password=ptk;Host=127.0.0.1;Port=5432;Database=ptk;Pooling=true;"} ) //TODO: Set development time configuration
 }
 
 [<EntryPoint>]

@@ -18,7 +18,7 @@ module Controller =
         return raise ex
     }
 
-  let showAction (ctx: HttpContext) (id : string) =
+  let showAction (ctx: HttpContext) (id : int) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.getById cnf.connectionString id
@@ -34,7 +34,7 @@ module Controller =
   let addAction (ctx: HttpContext) =
     Controller.renderXml ctx (Views.add ctx None Map.empty)
 
-  let editAction (ctx: HttpContext) (id : string) =
+  let editAction (ctx: HttpContext) (id : int) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.getById cnf.connectionString id
@@ -64,7 +64,7 @@ module Controller =
         return! Controller.renderXml ctx (Views.add ctx (Some input) validateResult)
     }
 
-  let updateAction (ctx: HttpContext) (id : string) =
+  let updateAction (ctx: HttpContext) (id : int) =
     task {
       let! input = Controller.getModel<Category> ctx
       let validateResult = Validation.validate input
@@ -80,7 +80,7 @@ module Controller =
         return! Controller.renderXml ctx (Views.edit ctx input validateResult)
     }
 
-  let deleteAction (ctx: HttpContext) (id : string) =
+  let deleteAction (ctx: HttpContext) (id : int) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.delete cnf.connectionString id

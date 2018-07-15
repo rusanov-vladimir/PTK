@@ -2,7 +2,7 @@ FSharp.Core
 Saturn
 
 Dapper
-Microsoft.Data.Sqlite
+Npgsql
 FSharp.Formatting
 
 Microsoft.DotNet.Watcher.Tools

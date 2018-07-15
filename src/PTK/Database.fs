@@ -4,7 +4,6 @@ open Dapper
 open System.Data.Common
 open System.Collections.Generic
 open FSharp.Control.Tasks.ContextInsensitive
-open FSharp.Markdown
 
 let inline (=>) k v = k, box v
 

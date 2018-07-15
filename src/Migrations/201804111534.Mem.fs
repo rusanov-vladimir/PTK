@@ -6,21 +6,18 @@ type CreateMems() =
   inherit Migration()
 
   override __.Up() =
-    base.Execute(@"CREATE TABLE `Categories` (
-    	`id`	INTEGER NOT NULL,
-    	`title`	TEXT NOT NULL,
-    	PRIMARY KEY(`id`)
-    );
+    base.Execute(@"CREATE TABLE Categories (
+    id         serial primary key,
+    title       varchar(40) NOT NULL
+);
 
-    CREATE TABLE `Mems` (
-    	`id`	INTEGER NOT NULL,
-    	`title`	TEXT NOT NULL,
-    	`content`	TEXT NOT NULL,
-    	`author`	TEXT NOT NULL,
-    	`categoryId`	INT DEFAULT NULL,
-    	PRIMARY KEY(`id`),
-    	FOREIGN KEY(`categoryId`) REFERENCES `Categories`(`id`)
-    );")
+CREATE TABLE Mems (
+    	id serial primary key,
+    	title       varchar(40) NOT NULL,
+    	content   varchar(40) NOT NULL,
+    	author       varchar(40) NOT NULL,
+        categoryId SERIAL REFERENCES Categories
+);")
 
   override __.Down() =
     base.Execute(@"DROP TABLE Mems; DROP TABLE Categories;")

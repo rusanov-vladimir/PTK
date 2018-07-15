@@ -18,7 +18,7 @@ module Controller =
         return raise ex
     }
 
-  let showAction (ctx: HttpContext) (id: string) =
+  let showAction (ctx: HttpContext) (id: int) =
     task {
 
       let cnf = Controller.getConfig ctx
@@ -43,7 +43,7 @@ module Controller =
       return! Controller.renderXml ctx (Mems.Views.add ctx None cats Map.empty )
     }
 
-  let editAction (ctx: HttpContext) (id: string) =
+  let editAction (ctx: HttpContext) (id: int) =
     task {
       let cnf = Controller.getConfig ctx
       let! result =Database.getById cnf.connectionString id
@@ -77,7 +77,7 @@ module Controller =
     task {
       let cnf = Controller.getConfig ctx
       let! input = Controller.getModel<MemViewModel> ctx
-      let! catRes = Categories.Database.getById  cnf.connectionString (string input.categoryId)
+      let! catRes = Categories.Database.getById  cnf.connectionString input.categoryId
       let mem = mapToDomain input catRes
       let validateResult =Validation.validate mem
       if validateResult.IsEmpty then
@@ -96,11 +96,11 @@ module Controller =
         return! Controller.renderXml ctx (Mems.Views.add ctx (Some mem) cats validateResult)
     }
 
-  let updateAction (ctx: HttpContext) (id: string) =
+  let updateAction (ctx: HttpContext) (id: int) =
     task {
       let cnf = Controller.getConfig ctx
       let! input = Controller.getModel<MemViewModel> ctx
-      let! catRes = Categories.Database.getById  cnf.connectionString (string input.categoryId)
+      let! catRes = Categories.Database.getById  cnf.connectionString input.categoryId
       let mem = mapToDomain input catRes
       let validateResult =Validation.validate mem
       if validateResult.IsEmpty then
@@ -120,7 +120,7 @@ module Controller =
         return! Controller.renderXml ctx (Mems.Views.edit ctx mem cats validateResult)
     }
 
-  let deleteAction (ctx: HttpContext) (id: string) =
+  let deleteAction (ctx: HttpContext) (id: int) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.delete cnf.connectionString id
