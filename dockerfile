@@ -16,3 +16,4 @@ FROM microsoft/dotnet:2.1-aspnetcore-runtime
 WORKDIR /app
 COPY --from=build-env /app/src/PTK/out/ .
 ENTRYPOINT ["dotnet", "PTK.dll"]
+CMD [""]
