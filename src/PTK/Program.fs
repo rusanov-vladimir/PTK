@@ -29,7 +29,8 @@ let connectionString ()=
               "Port="     + m.Groups.[4].Value + ";" + 
               "Database=" + m.Groups.[5].Value + ";" +
               "User Id="  + m.Groups.[1].Value + ";" +
-              "Password=" + m.Groups.[2].Value + ";"
+              "Password=" + m.Groups.[2].Value + ";" +
+              "Pooling=true;SSL Mode=Require;Trust Server Certificate=true;"
             cstring
         else
             "User ID=postgres;Password=ptk;Host=127.0.0.1;Port=5432;Database=ptk;Pooling=true;"
