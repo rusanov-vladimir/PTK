@@ -1,11 +1,24 @@
 module Database
 
+open Npgsql
 open Dapper
 open System.Data.Common
 open System.Collections.Generic
 open FSharp.Control.Tasks.ContextInsensitive
 
 let inline (=>) k v = k, box v
+
+let locker = new System.Object() 
+let queueConnection connectionString (functor :NpgsqlConnection -> System.Threading.Tasks.Task<'T>) =
+    lock locker (fun()->
+    use connection = new NpgsqlConnection(connectionString)
+    System.Diagnostics.Debug.WriteLine("opening connection")
+    connection.Open()
+    let res = functor connection 
+    res.Wait()
+    System.Diagnostics.Debug.WriteLine("closing connection")
+    connection.Close()
+    res)
 
 let execute (connection:#DbConnection) (sql:string) (data:_) =
     task {
