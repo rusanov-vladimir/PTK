@@ -7,16 +7,15 @@ open Giraffe
 open System.Security.Claims
 
 
-let googleUserIdForRmunn = "test"
+let gitHubUsername = "rusanov-vladimir"
 
 let matchUpUsers : HttpHandler = fun next ctx ->
     // A real implementation would match up user identities with something stored in a database, not hardcoded in Users.fs like this example
-    let isRmunn =
+    let isSiteOwner =
         ctx.User.Claims |> Seq.exists (fun claim ->
-            claim.Issuer = "GitHub" && claim.Type = ClaimTypes.NameIdentifier && claim.Value = googleUserIdForRmunn)
-    if isRmunn then
-        printfn "User rmunn is an admin of this demo app, adding admin role to user claims"
-        ctx.User.AddIdentity(new ClaimsIdentity([Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String, "MyApplication")]))
+            claim.Issuer = "GitHub" && claim.Type = "githubUsername" && claim.Value = gitHubUsername)
+    if isSiteOwner then
+        ctx.User.AddIdentity(new ClaimsIdentity([Claim(ClaimTypes.Role, "Admin", ClaimValueTypes.String, "PTK")]))
     next ctx
 
 let loggedIn = pipeline {

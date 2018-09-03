@@ -46,7 +46,7 @@ let app = application {
     memory_cache 
     disable_diagnostics
     use_static "static"
-    use_github_oauth "x" "y" "/oauth_callback_github" []
+    use_github_oauth (System.Environment.GetEnvironmentVariable("id")) (System.Environment.GetEnvironmentVariable("pass")) "/oauth_callback_github" ["login", "githubUsername"; "name", "fullName"]
     use_gzip
     use_config (fun _ -> {connectionString = connectionString()} ) //TODO: Set development time configuration
 }
