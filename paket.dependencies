@@ -2,6 +2,7 @@ source https://api.nuget.org/v3/index.json
 
 nuget FSharp.Core
 nuget Saturn
+nuget Saturn.Extensions.Authorization
 nuget Simple.Migrations
 nuget Dapper
 nuget FSharp.Formatting

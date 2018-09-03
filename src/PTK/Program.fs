@@ -4,6 +4,7 @@ open Saturn
 open Config
 open System.Text.RegularExpressions
 
+
 let endpointPipe = pipeline {
     plug head
     plug requestId
@@ -38,13 +39,14 @@ let connectionString ()=
 
 let app = application {
     pipe_through endpointPipe
-
+    
     error_handler (fun ex _ -> pipeline { render_html (InternalError.layout ex) })
     use_router Router.browserRouter
     url (url_with_port())
     memory_cache 
     disable_diagnostics
     use_static "static"
+    use_github_oauth "x" "y" "/oauth_callback_github" []
     use_gzip
     use_config (fun _ -> {connectionString = connectionString()} ) //TODO: Set development time configuration
 }
