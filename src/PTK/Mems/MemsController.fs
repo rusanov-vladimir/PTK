@@ -13,7 +13,7 @@ module Controller =
       let! result = Database.getAll cnf.connectionString
       match result with
       | Ok result ->
-        return! Controller.renderXml ctx (Views.index ctx (List.ofSeq result))
+        return! Controller.renderHtml ctx (Views.index ctx (List.ofSeq result))
       | Error ex ->
         return raise ex
     }
@@ -25,9 +25,9 @@ module Controller =
       let! mems =Database.getById cnf.connectionString id
       match mems with
       | Ok (Some result) ->
-        return! Controller.renderXml ctx (Mems.Views.show ctx result)
+        return! Controller.renderHtml ctx (Mems.Views.show ctx result)
       | Ok None ->
-        return! Controller.renderXml ctx NotFound.layout
+        return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
         return raise ex
     }
@@ -40,7 +40,7 @@ module Controller =
         match catsRes with
         | Ok x -> x
         | Error ex -> raise ex
-      return! Controller.renderXml ctx (Mems.Views.add ctx None cats Map.empty )
+      return! Controller.renderHtml ctx (Mems.Views.add ctx None cats Map.empty )
     }
 
   let editAction (ctx: HttpContext) (id: int) =
@@ -54,9 +54,9 @@ module Controller =
         | Error ex -> raise ex
       match result with
       | Ok (Some result) ->
-        return! Controller.renderXml ctx (Mems.Views.edit ctx result cats Map.empty)
+        return! Controller.renderHtml ctx (Mems.Views.edit ctx result cats Map.empty)
       | Ok None ->
-        return! Controller.renderXml ctx NotFound.layout
+        return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
         return raise ex
     }
@@ -93,7 +93,7 @@ module Controller =
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Mems.Views.add ctx (Some mem) cats validateResult)
+        return! Controller.renderHtml ctx (Mems.Views.add ctx (Some mem) cats validateResult)
     }
 
   let updateAction (ctx: HttpContext) (id: int) =
@@ -117,7 +117,7 @@ module Controller =
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderXml ctx (Mems.Views.edit ctx mem cats validateResult)
+        return! Controller.renderHtml ctx (Mems.Views.edit ctx mem cats validateResult)
     }
 
   let deleteAction (ctx: HttpContext) (id: int) =

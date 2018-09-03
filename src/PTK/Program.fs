@@ -40,7 +40,7 @@ let app = application {
     pipe_through endpointPipe
 
     error_handler (fun ex _ -> pipeline { render_html (InternalError.layout ex) })
-    router Router.router
+    use_router Router.browserRouter
     url (url_with_port())
     memory_cache 
     disable_diagnostics
