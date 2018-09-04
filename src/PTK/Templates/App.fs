@@ -42,7 +42,7 @@ let layout (content: XmlNode list) =
                                 a [_href "/"] [encodedText "Home"]
                             ]
                             li [] [
-                                a [_href "/mems"] [encodedText "Memories3615"]
+                                a [_href "/memories"] [encodedText "Memories3615"]
                             ]
                             li [] [
                                 a [_href "/tools"] [encodedText "Tool kit"]

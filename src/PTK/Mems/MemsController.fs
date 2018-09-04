@@ -7,6 +7,17 @@ open Saturn
 
 module Controller =
 
+  let readIndexAction (ctx : HttpContext) =
+    task {
+      let cnf = Controller.getConfig ctx
+      let! result = Database.getAll cnf.connectionString
+      match result with
+      | Ok result ->
+        return! Controller.renderHtml ctx (Views.readIndex ctx (List.ofSeq result))
+      | Error ex ->
+        return raise ex
+    }
+
   let indexAction (ctx : HttpContext) =
     task {
       let cnf = Controller.getConfig ctx
@@ -131,7 +142,7 @@ module Controller =
         return raise ex
     }
 
-  let resource = controller {
+  let crud = controller {
     index indexAction
     show showAction
     add addAction
@@ -139,5 +150,9 @@ module Controller =
     create createAction
     update updateAction
     delete deleteAction
+  }
+
+  let read = controller {
+    index readIndexAction
   }
 

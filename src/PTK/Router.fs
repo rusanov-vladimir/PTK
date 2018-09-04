@@ -46,7 +46,8 @@ let browserRouter = router {
     pipe_through browser //Use the default browser pipeline
 
     forward "" defaultView //Use the default view
-    forward "/mems" Mems.Controller.resource
+    forward "/memories" Mems.Controller.read
+    forward "/mems" (isAdmin >=> Mems.Controller.crud)
     forward "/cats" (isAdmin >=> Categories.Controller.resource)
 }
 

@@ -5,10 +5,43 @@ open Giraffe.GiraffeViewEngine
 open Saturn
 open FSharp.Markdown
 open Categories
+open System
 
 type ComboViewModel = { Id: int; Name: string }
 
 module Views =
+
+  let readIndex (ctx : HttpContext) (objs : Mem list) =
+    let cnt = [
+      div [_class "container "] [
+        for o in objs do
+          yield article [_class "entry"] [
+            header [_class "entry-header"] [
+              h2 [_class "entry-title"][
+                a [_href ("/memory/"+(string o.id)); _title o.title][
+                  rawText o.title
+                ]
+              ]
+              div [_class "entry-meta"][
+                ul [][
+                  li [] [rawText (string DateTime.Now)]
+                  span [_class "meta-sep"][rawText "&bull;"]
+                  li [] [
+                    a [_href "#"; _title o.category.title; _rel "category tag"] [rawText o.category.title]
+                  ]
+                  span [_class "meta-sep"][rawText "&bull;"]
+                  li [] [rawText o.author]
+                ]
+              ]
+            ]
+            div [_class "entry-content"][
+              p [][o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
+            ]
+          ]
+        ]
+      ]
+    App.layout ([section [_class "section"] cnt])
+
   let index (ctx : HttpContext) (objs : Mem list) =
     let cnt = [
       div [_class "container "] [
