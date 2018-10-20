@@ -15,7 +15,7 @@ let index =
                 p [] [
                     a [_href "#"] [
                         img [_width "120"; _height "120"; _class "pull-left"; _alt "sample-image"; _src "images/sample-image.jpg"]
-                        EncodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
+                        encodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
               			   Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu
               			   posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum
               			   odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra
@@ -31,7 +31,7 @@ let index =
                 p [] [
                     a [_href "#"] [
                         img [_width "120"; _height "120"; _class "pull-left"; _alt "sample-image"; _src "images/sample-image.jpg"]
-                        EncodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
+                        encodedText "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum.
               			   Cras id urna. Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu
               			   posuere nunc justo tempus leo. Donec mattis, purus nec placerat bibendum, dui pede condimentum
               			   odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra

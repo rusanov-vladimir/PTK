@@ -37,6 +37,8 @@ let connectionString ()=
             "User ID=postgres;Password=ptk;Host=127.0.0.1;Port=5432;Database=ptk;Pooling=true;"
     connectionString
 
+let cid = System.Environment.GetEnvironmentVariable("cid")
+let pass = System.Environment.GetEnvironmentVariable("pass")
 let app = application {
     pipe_through endpointPipe
     
@@ -46,7 +48,7 @@ let app = application {
     memory_cache 
     disable_diagnostics
     use_static "static"
-    use_github_oauth (System.Environment.GetEnvironmentVariable("cid")) (System.Environment.GetEnvironmentVariable("pass")) "/oauth_callback_github" ["login", "githubUsername"; "name", "fullName"]
+    use_github_oauth cid pass "/oauth_callback_github" ["login", "githubUsername"; "name", "fullName"]
     use_gzip
     use_config (fun _ -> {connectionString = connectionString()} ) //TODO: Set development time configuration
 }
