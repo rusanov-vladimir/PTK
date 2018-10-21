@@ -15,6 +15,7 @@ module Views =
             tr [] [
               th [] [rawText "Id"]
               th [] [rawText "Title"]
+              th [] [rawText "Description"]
               th [] []
             ]
           ]
@@ -23,6 +24,7 @@ module Views =
               yield tr [] [
                 td [] [rawText (string o.id)]
                 td [] [rawText (string o.title)]
+                td [] [rawText (string o.description)]
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]
                   a [_class "button is-text"; _href (Links.edit ctx (string o.id) )] [rawText "Edit"]
@@ -46,6 +48,7 @@ module Views =
         ul [] [
           li [] [ strong [] [rawText "Id: "]; rawText (string o.id) ]
           li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
+          li [] [ strong [] [rawText "Description: "]; rawText (string o.description) ]
         ]
         a [_class "button is-text"; _href (Links.edit ctx (string o.id))] [rawText "Edit"]
         a [_class "button is-text"; _href (Links.index ctx )] [rawText "Back"]
@@ -91,6 +94,7 @@ module Views =
             yield validationMessage
           yield field (fun i -> (string i.id)) "Id" "id" 
           yield field (fun i -> (string i.title)) "Title" "title" 
+          yield field (fun i -> (string i.description)) "Description" "description" 
           yield buttons
         ]
       ]

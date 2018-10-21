@@ -2,9 +2,10 @@ namespace Categories
 
 [<CLIMutable>]
 type Category = {
-  id: int
-  title: string
-}
+    id: int
+    title: string
+    description: string
+  }
 
 module Validation =
   let validate v =
