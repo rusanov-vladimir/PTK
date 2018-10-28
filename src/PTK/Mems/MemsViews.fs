@@ -10,7 +10,6 @@ open System
 type ComboViewModel = { Id: int; Name: string }
 
 module Views =
-
   let readIndex (ctx : HttpContext) (objs : Mem list) =
     let cnt = [
       div [_class "container "] [
@@ -106,11 +105,22 @@ module Views =
         rawText "Oops, something went wrong! Please check the errors below."
       ]
 
-    let field selector lbl key =
+    let generatedInput selector key inputType= 
+      match inputType with
+      | VoidElement v ->
+        input [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _value (defaultArg (o |> Option.map selector) ""); _name key ; _type "text" ]
+      | ParentNode (z,k) ->           
+        textarea [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _name key ; ] [
+          rawText (defaultArg (o |> Option.map selector) "")
+        ]
+      | Text t ->
+        rawText t      
+        
+    let field selector lbl key inputType=
       div [_class "field"] [
         yield label [_class "label"] [rawText (string lbl)]
         yield div [_class "control has-icons-right"] [
-          yield input [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _value (defaultArg (o |> Option.map selector) ""); _name key ; _type "text" ]
+          yield generatedInput selector key inputType
           if validationResult.ContainsKey key then
             yield span [_class "icon is-small is-right"] [
               i [_class "fas fa-exclamation-triangle"] []
@@ -150,10 +160,10 @@ module Views =
         form [ _action (if isUpdate then Links.withId ctx (string o.Value.id) else Links.index ctx ); _method "post"] [
           if not validationResult.IsEmpty then
             yield validationMessage
-          yield field (fun i -> (string i.id)) "Id" "id" 
-          yield field (fun i -> (string i.title)) "Title" "title" 
-          yield field (fun i -> (string i.content)) "Content" "content" 
-          yield field (fun i -> (string i.author)) "Author" "author" 
+          yield field (fun i -> (string i.id)) "Id" "id" (input [])
+          yield field (fun i -> (string i.title)) "Title" "title" (input [])
+          yield field (fun i -> (string i.content)) "Content" "content"  (textarea [][])
+          yield field (fun i -> (string i.author)) "Author" "author" (input [])
           yield dropdown (fun i -> (string i.category.id)) "CategoryId" "categoryId" (cats |> Seq.map (fun x-> {Id = x.id; Name= x.title}))
           yield buttons
         ]
