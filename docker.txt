@@ -16,7 +16,7 @@ docker run --env HTTP_PROXY="http://proxy-md.ktn.group:3128" --env HTTPS_PROXY="
 https://medium.com/travis-on-docker/how-to-run-dockerized-apps-on-heroku-and-its-pretty-great-76e07e610e22
 
 #first tag
-sudo docker tag ptk:cmd registry.heroku.com/ptk2/web
+sudo docker tag ptk:latest registry.heroku.com/ptk2/web
 
 #then push
 sudo docker push registry.heroku.com/ptk2/web

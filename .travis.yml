@@ -1,0 +1,27 @@
+sudo: required
+
+language: csharp
+solution: PTK.sln
+
+services:
+  - docker
+
+before_install:
+- echo "$DPWD" | docker login -u "$DUSR" --password-stdin
+- docker build -t ptk .
+- docker tag ptk:latest registry.heroku.com/ptk2/web
+- docker push registry.heroku.com/ptk2/web
+
+# - docker pull carlad/sinatra
+# - docker run -d -p 127.0.0.1:80:4567 carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec foreman start;"
+# - docker ps -a
+# - docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
+
+#script:
+# - bundle exec rake test
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "$HAPIK"
+  app: ptk2

@@ -8,6 +8,9 @@ open Categories
 open System
 
 type ComboViewModel = { Id: int; Name: string }
+type EditorType = 
+  | SingleLine
+  | MultiLine
 
 module Views =
   let readIndex (ctx : HttpContext) (objs : Mem list) =
@@ -107,14 +110,12 @@ module Views =
 
     let generatedInput selector key inputType= 
       match inputType with
-      | VoidElement v ->
+      | SingleLine ->
         input [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _value (defaultArg (o |> Option.map selector) ""); _name key ; _type "text" ]
-      | ParentNode (z,k) ->           
+      | MultiLine ->           
         textarea [_class (if validationResult.ContainsKey key then "input is-danger" else "input"); _name key ; ] [
           rawText (defaultArg (o |> Option.map selector) "")
-        ]
-      | Text t ->
-        rawText t      
+        ]     
         
     let field selector lbl key inputType=
       div [_class "field"] [
@@ -160,10 +161,10 @@ module Views =
         form [ _action (if isUpdate then Links.withId ctx (string o.Value.id) else Links.index ctx ); _method "post"] [
           if not validationResult.IsEmpty then
             yield validationMessage
-          yield field (fun i -> (string i.id)) "Id" "id" (input [])
-          yield field (fun i -> (string i.title)) "Title" "title" (input [])
-          yield field (fun i -> (string i.content)) "Content" "content"  (textarea [][])
-          yield field (fun i -> (string i.author)) "Author" "author" (input [])
+          yield field (fun i -> (string i.id)) "Id" "id" SingleLine
+          yield field (fun i -> (string i.title)) "Title" "title" SingleLine
+          yield field (fun i -> (string i.content)) "Content" "content"  MultiLine
+          yield field (fun i -> (string i.author)) "Author" "author" SingleLine
           yield dropdown (fun i -> (string i.category.id)) "CategoryId" "categoryId" (cats |> Seq.map (fun x-> {Id = x.id; Name= x.title}))
           yield buttons
         ]
