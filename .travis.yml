@@ -1,14 +1,19 @@
+language: csharp
+#language: minimal
+#solution: PTK.sln
 sudo: required
-
-language: minimal
+mono: 5.16.0
+dotnet: 2.1.4
 
 services:
   - docker
 
 before_install:
+- sudo ./build.sh
 - echo "$DPWD" | docker login -u "$DUSR" --password-stdin
 - docker build -t ptk .
 - docker tag ptk:latest registry.heroku.com/ptk2/web
+- docker login --username $HEROKU_DOCKER_USERNAME --password $HEROKU_AUTH_TOKEN registry.heroku.com
 - docker push registry.heroku.com/ptk2/web
 
 # - docker pull carlad/sinatra
