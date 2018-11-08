@@ -8,7 +8,9 @@ dotnet: 2.1.4
 services:
   - docker
 
-before_install:
+install: true
+
+script:
 - sudo ./build.sh
 - echo "$DPWD" | docker login -u "$DUSR" --password-stdin
 - docker build -t ptk .
