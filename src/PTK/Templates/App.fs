@@ -183,7 +183,8 @@ let layout (content: XmlNode list) =
                 ]
             ] //end footer
 
-            yield script [_type "text/javascript"; _src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"] []            
+            yield script [_type "text/javascript"; _src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"] []
+            yield script [_type "text/javascript"; _src "https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"] []
             yield script [] [rawText """window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')"""]
             yield script [_type "text/javascript"; _src "/js/jquery-migrate-1.2.1.min.js"] []
             yield script [_type "text/javascript"; _src "/js/main.js"] []

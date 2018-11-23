@@ -18,6 +18,17 @@ module Controller =
         return raise ex
     }
 
+  let readPageAction (ctx : HttpContext) (page: int)  =
+    task {
+      let cnf = Controller.getConfig ctx
+      let! result = Database.getAll cnf.connectionString
+      match result with
+      | Ok result ->
+        return! Controller.renderHtml ctx (Views.readIndex ctx (List.ofSeq result))
+      | Error ex ->
+        return raise ex
+    }
+
   let indexAction (ctx : HttpContext) =
     task {
       let cnf = Controller.getConfig ctx

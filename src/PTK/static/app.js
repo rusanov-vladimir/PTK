@@ -44,3 +44,10 @@ document.addEventListener('DOMContentLoaded', function () {
   addNavbarBurger();
   addDeleteButtons();
 });
+
+$('.container').infiniteScroll({
+  // options
+  path: '/memories/{{#}}',
+  append: '.post',
+  history: false,
+});
