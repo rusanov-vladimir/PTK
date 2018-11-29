@@ -3,6 +3,7 @@ namespace Mems
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
+open Giraffe.Core
 open Saturn
 
 module Controller =
@@ -10,18 +11,12 @@ module Controller =
   let readIndexAction (ctx : HttpContext) =
     task {
       let cnf = Controller.getConfig ctx
-      let! result = Database.getAll cnf.connectionString
-      match result with
-      | Ok result ->
-        return! Controller.renderHtml ctx (Views.readIndex ctx (List.ofSeq result))
-      | Error ex ->
-        return raise ex
-    }
+      let page =
+        match ctx.TryGetQueryStringValue "page" with
+        | None   -> 1
+        | Some p -> int p
 
-  let readPageAction (ctx : HttpContext) (page: int)  =
-    task {
-      let cnf = Controller.getConfig ctx
-      let! result = Database.getAll cnf.connectionString
+      let! result = Database.getAll cnf.connectionString page
       match result with
       | Ok result ->
         return! Controller.renderHtml ctx (Views.readIndex ctx (List.ofSeq result))
@@ -32,7 +27,11 @@ module Controller =
   let indexAction (ctx : HttpContext) =
     task {
       let cnf = Controller.getConfig ctx
-      let! result = Database.getAll cnf.connectionString
+      let page = 
+        match ctx.TryGetQueryStringValue "page" with
+        | None   -> 1
+        | Some p -> int p
+      let! result = Database.getAll cnf.connectionString page
       match result with
       | Ok result ->
         return! Controller.renderHtml ctx (Views.index ctx (List.ofSeq result))

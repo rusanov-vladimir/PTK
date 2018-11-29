@@ -47,7 +47,6 @@ let browserRouter = router {
 
     forward "" defaultView //Use the default view
     forward "/memories" Mems.Controller.read
-    getf "/memories/%i" Mems.Controller.readPageAction
     forward "/mems" (isAdmin >=> Mems.Controller.crud)
     forward "/cats" (isAdmin >=> Categories.Controller.resource)
 }

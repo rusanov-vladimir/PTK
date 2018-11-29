@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 $('.container').infiniteScroll({
   // options
-  path: '/memories/{{#}}',
+  path: '/memories?page={{#}}',
   append: '.post',
   history: false,
 });
