@@ -44,4 +44,4 @@ let index =
     ]
 
 let layout =
-    App.layout index
+    App.layout index []

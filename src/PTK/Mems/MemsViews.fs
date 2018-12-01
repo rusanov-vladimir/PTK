@@ -20,7 +20,7 @@ module Views =
           yield article [_class "entry"] [
             header [_class "entry-header"] [
               h2 [_class "entry-title"][
-                a [_href ("/memory/"+(string o.id)); _title o.title][
+                a [_href (Links.withId ctx (string o.id) ); _title o.title][
                   rawText o.title
                 ]
               ]
@@ -42,14 +42,14 @@ module Views =
           ]
         ]
       ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) [script [_src "/memoriesRead.js"] []]
 
   let index (ctx : HttpContext) (objs : Mem list) =
     let cnt = [
-      div [_class "container "] [
+      div [] [
         h2 [ _class "title"] [rawText "Listing Mems"]
 
-        table [_class "table is-hoverable is-fullwidth"] [
+        table [_class "table is-hoverable is-fullwidth container"] [
           thead [] [
             tr [] [
               th [] [rawText "Id"]
@@ -62,7 +62,7 @@ module Views =
           ]
           tbody [] [
             for o in objs do
-              yield tr [] [
+              yield tr [_class "entry"] [
                 td [] [rawText (string o.id)]
                 td [] [rawText (string o.title)]
                 td [] [o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
@@ -80,7 +80,7 @@ module Views =
         a [_class "button is-text"; _href (Links.add ctx )] [rawText "New Mem"]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) [script [_src "/mems-scroll.js"] []]
 
 
   let show (ctx : HttpContext) (o : Mem) =
@@ -99,7 +99,24 @@ module Views =
         a [_class "button is-text"; _href (Links.index ctx )] [rawText "Back"]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) []
+
+  let readShow (ctx : HttpContext) (o : Mem) =
+    let cnt = [
+      div [_class "container "] [
+        h2 [ _class "title"] [rawText "Show Mem"]
+
+        ul [] [
+          li [] [ strong [] [rawText "Id: "]; rawText (string o.id) ]
+          li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
+          li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
+          li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
+          li [] [ strong [] [rawText "Category: "]; rawText (string o.category.title) ]
+        ]
+        a [_class "button is-text"; _href (Links.index ctx )] [rawText "Back"]
+      ]
+    ]
+    App.layout ([section [_class "section"] cnt]) []
 
   let private form (ctx: HttpContext) (o: Mem option) (cats: Category seq)(validationResult : Map<string, string>) isUpdate =
     let validationMessage =
@@ -170,7 +187,7 @@ module Views =
         ]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) []
 
   let add (ctx: HttpContext) (o: Mem option) (cats: Category seq) (validationResult : Map<string, string>)=
     form ctx o cats validationResult false

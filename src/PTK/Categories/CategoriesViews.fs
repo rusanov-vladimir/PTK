@@ -37,7 +37,7 @@ module Views =
         a [_class "button is-text"; _href (Links.add ctx )] [rawText "New Category"]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) []
 
 
   let show (ctx : HttpContext) (o : Category) =
@@ -54,7 +54,7 @@ module Views =
         a [_class "button is-text"; _href (Links.index ctx )] [rawText "Back"]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) []
 
   let private form (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>) isUpdate =
     let validationMessage =
@@ -99,7 +99,7 @@ module Views =
         ]
       ]
     ]
-    App.layout ([section [_class "section"] cnt])
+    App.layout ([section [_class "section"] cnt]) []
 
   let add (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>)=
     form ctx o validationResult false

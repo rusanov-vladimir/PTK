@@ -29,7 +29,7 @@ let isAdmin = pipeline {
 }
 
 let browser = pipeline {
-    plug acceptHtml
+    //plug acceptHtml
     plug putSecureBrowserHeaders
     plug fetchSession
     set_header "x-pipeline-type" "Browser"

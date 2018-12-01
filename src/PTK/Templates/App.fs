@@ -2,7 +2,7 @@ module App
 
 open Giraffe.GiraffeViewEngine
 
-let layout (content: XmlNode list) =
+let layout (content: XmlNode list) (customScripts:XmlNode list) =
     html [_class "no-js"; _lang "en"] [
         head [] [
             meta [_charset "utf-8"]
@@ -189,5 +189,6 @@ let layout (content: XmlNode list) =
             yield script [_type "text/javascript"; _src "/js/jquery-migrate-1.2.1.min.js"] []
             yield script [_type "text/javascript"; _src "/js/main.js"] []
             yield script [_src "/app.js"] []
+            yield! customScripts
         ]
     ]

@@ -53,6 +53,20 @@ module Controller =
         return raise ex
     }
 
+  let readShowAction (ctx: HttpContext) (id: int) =
+    task {
+
+      let cnf = Controller.getConfig ctx
+      let! mems =Database.getById cnf.connectionString id
+      match mems with
+      | Ok (Some result) ->
+        return! Controller.renderHtml ctx (Mems.Views.readShow ctx result)
+      | Ok None ->
+        return! Controller.renderHtml ctx NotFound.layout
+      | Error ex ->
+        return raise ex
+    }
+
   let addAction (ctx: HttpContext) =
     task{
       let cnf = Controller.getConfig ctx        
@@ -164,5 +178,6 @@ module Controller =
 
   let read = controller {
     index readIndexAction
+    show readShowAction
   }
 
