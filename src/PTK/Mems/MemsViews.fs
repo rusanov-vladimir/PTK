@@ -71,7 +71,7 @@ module Views =
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]
                   a [_class "button is-text"; _href (Links.edit ctx (string o.id) )] [rawText "Edit"]
-                  a [_class "button is-text is-delete"; attr "data-href" (Links.withId ctx (string o.id) ) ] [rawText "Delete"]
+                  a [_class "button is-text is-delete"; attr "data-href" (Links.withId ctx (string o.id) ); _onclick "deleteMem(this)" ] [rawText "Delete"]
                 ]
               ]
           ]
