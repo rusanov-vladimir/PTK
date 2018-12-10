@@ -10,8 +10,8 @@ type Category = {
 module Validation =
   let validate v =
     let validators = [
-      fun u -> if u.id =0 then Some ("id", "Id shouldn't be empty") else None
-    ]
+        //fun u -> if u.id =0 then Some ("id", "Id shouldn't be empty") else None
+      ]
 
     validators
     |> List.fold (fun acc e ->

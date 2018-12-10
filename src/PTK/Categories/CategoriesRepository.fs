@@ -21,7 +21,7 @@ module Database =
 
   let insert connectionString v : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
-      execute connection "INSERT INTO Categories(id, title, description) VALUES (@id, @title, @description)" v )
+      execute connection "INSERT INTO Categories(title, description) VALUES (@title, @description)" v )
 
   let delete connectionString id : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 

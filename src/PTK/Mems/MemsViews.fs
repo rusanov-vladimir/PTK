@@ -52,7 +52,6 @@ module Views =
         table [_class "table is-hoverable is-fullwidth container"] [
           thead [] [
             tr [] [
-              th [] [rawText "Id"]
               th [] [rawText "Title"]
               th [] [rawText "Content"]
               th [] [rawText "Author"]
@@ -63,7 +62,6 @@ module Views =
           tbody [] [
             for o in objs do
               yield tr [_class "entry"] [
-                td [] [rawText (string o.id)]
                 td [] [rawText (string o.title)]
                 td [] [o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
                 td [] [rawText (string o.author)]
@@ -89,7 +87,6 @@ module Views =
         h2 [ _class "title"] [rawText "Show Mem"]
 
         ul [] [
-          li [] [ strong [] [rawText "Id: "]; rawText (string o.id) ]
           li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
           li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
@@ -107,7 +104,6 @@ module Views =
         h2 [ _class "title"] [rawText "Show Mem"]
 
         ul [] [
-          li [] [ strong [] [rawText "Id: "]; rawText (string o.id) ]
           li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
           li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
@@ -178,7 +174,7 @@ module Views =
         form [ _action (if isUpdate then Links.withId ctx (string o.Value.id) else Links.index ctx ); _method "post"] [
           if not validationResult.IsEmpty then
             yield validationMessage
-          yield field (fun i -> (string i.id)) "Id" "id" SingleLine
+          yield input [_value (defaultArg (o |> (Option.map (fun i -> string i.id))) ""); _name "Id" ; _type "hidden" ]
           yield field (fun i -> (string i.title)) "Title" "title" SingleLine
           yield field (fun i -> (string i.content)) "Content" "content"  MultiLine
           yield field (fun i -> (string i.author)) "Author" "author" SingleLine

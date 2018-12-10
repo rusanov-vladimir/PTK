@@ -32,7 +32,7 @@ module Database =
 
   let insert connectionString v : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
-      execute connection "INSERT INTO Mems(id, title, content, author, categoryId) VALUES (@id, @title, @content, @author, @categoryId)" v )
+      execute connection "INSERT INTO Mems(title, content, author, categoryId) VALUES (@title, @content, @author, @categoryId)" v )
 
   let delete connectionString id : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
