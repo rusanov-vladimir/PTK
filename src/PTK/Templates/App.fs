@@ -15,6 +15,8 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) =
             link [_rel "stylesheet"; _href "/css/layout.css" ]
             link [_rel "stylesheet"; _href "/css/media-queries.css" ]
 
+            link [_rel "stylesheet"; _href "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css" ]
+
             script [_src "/js/modernizr.js"] []
 
             link [_rel "shortcut icon"; _href "/favicon.png"]
@@ -185,6 +187,7 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) =
 
             yield script [_type "text/javascript"; _src "http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"] []
             yield script [_type "text/javascript"; _src "https://unpkg.com/infinite-scroll@3/dist/infinite-scroll.pkgd.min.js"] []
+            yield script [_type "text/javascript"; _src "https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"] []
             yield script [] [rawText """window.jQuery || document.write('<script src="js/jquery-1.10.2.min.js"><\/script>')"""]
             yield script [_type "text/javascript"; _src "/js/jquery-migrate-1.2.1.min.js"] []
             yield script [_type "text/javascript"; _src "/js/main.js"] []

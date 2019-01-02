@@ -24,4 +24,5 @@ function addNavbarBurger () {
 
 document.addEventListener('DOMContentLoaded', function () {
   addNavbarBurger();
+  var simplemde = new SimpleMDE();
 });
