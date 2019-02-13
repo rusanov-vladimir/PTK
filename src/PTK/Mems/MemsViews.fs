@@ -84,11 +84,9 @@ module Views =
   let show (ctx : HttpContext) (o : Mem) =
     let cnt = [
       div [_class "container "] [
-        h2 [ _class "title"] [rawText "Show Mem"]
-
+        h2 [ _class "title"] [rawText o.title]
         ul [] [
-          li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
-          li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
+          li [] [ o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
           li [] [ strong [] [rawText "Category: "]; rawText (string o.category.title) ]
         ]
@@ -101,11 +99,9 @@ module Views =
   let readShow (ctx : HttpContext) (o : Mem) =
     let cnt = [
       div [_class "container "] [
-        h2 [ _class "title"] [rawText "Show Mem"]
-
+        h2 [ _class "title"] [rawText o.title]
         ul [] [
-          li [] [ strong [] [rawText "Title: "]; rawText (string o.title) ]
-          li [] [ strong [] [rawText "Content: "]; o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
+          li [] [ o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
           li [] [ strong [] [rawText "Category: "]; rawText (string o.category.title) ]
         ]

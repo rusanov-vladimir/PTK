@@ -5,18 +5,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Database.fs" />
+    <Compile Include="Common.fs" />
     <Compile Include="Config.fs" />
     <Compile Include="Templates/App.fs" />
     <Compile Include="Templates/Index.fs" />
     <Compile Include="Templates/NotFound.fs" />
     <Compile Include="Templates/InternalError.fs" />
-
-  
-    <Compile Include="Categories\CategoriesModel.fs" />
-    <Compile Include="Categories\CategoriesViews.fs" />
-    <Compile Include="Categories\CategoriesRepository.fs" />
-    <Compile Include="Categories\CategoriesController.fs" />
-
+    <Compile Include="Home/HomeController.fs" />
+    <Compile Include="Categories/CategoriesModel.fs" />
+    <Compile Include="Categories/CategoriesViews.fs" />
+    <Compile Include="Categories/CategoriesRepository.fs" />
+    <Compile Include="Categories/CategoriesController.fs" />
     <Compile Include="Mems/MemsViewModel.fs" />
     <Compile Include="Mems/MemsModel.fs" />
     <Compile Include="Mems/MemsViews.fs" />

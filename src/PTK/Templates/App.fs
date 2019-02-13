@@ -2,7 +2,7 @@ module App
 
 open Giraffe.GiraffeViewEngine
 
-let layout (content: XmlNode list) (customScripts:XmlNode list) =
+let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) =
     html [_class "no-js"; _lang "en"] [
         head [] [
             meta [_charset "utf-8"]
@@ -40,16 +40,20 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) =
                     a [_class "mobile-btn"; _href "#n"; _title "Hide navigation"][encodedText "Hide Menu" ]
                     div [_class "row"] [
                         ul [_id "nav"; _class "nav"][
-                            li [_class "current"] [
+                            yield li [_class "current"] [
                                 a [_href "/"] [encodedText "Home"]
                             ]
-                            li [] [
+                            yield li [] [
                                 a [_href "/memories"] [encodedText "Memories3615"]
                             ]
-                            li [] [
+                            yield li [] [
                                 a [_href "/tools"] [encodedText "Tool kit"]
                             ]
-                            li [] [
+                            yield 
+                                if isAdmin 
+                                    then li [] [encodedText "test"]
+                                    else a [] [encodedText "aga"]
+                            yield li [] [
                                 a [_href "/contacts"] [encodedText "Contacts"]
                             ]
                         ]

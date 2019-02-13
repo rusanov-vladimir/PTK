@@ -96,7 +96,7 @@ module Views =
         ]
       ]
     ]
-    App.layout ([section [_class "section"] cnt]) []
+    App.layout ([section [_class "section"] cnt]) [] true
 
   let add (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>)=
     form ctx o validationResult false

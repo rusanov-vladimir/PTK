@@ -43,5 +43,5 @@ let index =
         ]
     ]
 
-let layout =
-    App.layout index []
+let layout isAdmin =
+    App.layout index [] isAdmin

@@ -3,19 +3,19 @@ namespace Categories
 open Microsoft.AspNetCore.Http
 open FSharp.Control.Tasks.ContextInsensitive
 open Config
+open Common
 open Saturn
 
 module Controller =
-
   let indexAction (ctx : HttpContext) =
     task {
       let cnf = Controller.getConfig ctx
       let! result = Database.getAll cnf.connectionString
       match result with
       | Ok result ->
-        return! Controller.renderHtml ctx (Views.index ctx (List.ofSeq result))
+          return! Common.MyRender ctx (Views.index ctx (List.ofSeq result))
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let showAction (ctx: HttpContext) (id : int) =
@@ -24,11 +24,11 @@ module Controller =
       let! result = Database.getById cnf.connectionString id
       match result with
       | Ok (Some result) ->
-        return! Controller.renderHtml ctx (Views.show ctx result)
+          return! Common.MyRender ctx (Views.show ctx result)
       | Ok None ->
-        return! Controller.renderHtml ctx NotFound.layout
+          return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let addAction (ctx: HttpContext) =
@@ -40,11 +40,11 @@ module Controller =
       let! result = Database.getById cnf.connectionString id
       match result with
       | Ok (Some result) ->
-        return! Controller.renderHtml ctx (Views.edit ctx result Map.empty)
+          return! Controller.renderHtml ctx (Views.edit ctx result Map.empty)
       | Ok None ->
-        return! Controller.renderHtml ctx NotFound.layout
+          return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let createAction (ctx: HttpContext) =
@@ -57,9 +57,9 @@ module Controller =
         let! result = Database.insert cnf.connectionString input
         match result with
         | Ok _ ->
-          return! Controller.redirect ctx (Links.index ctx)
+            return! Controller.redirect ctx (Links.index ctx)
         | Error ex ->
-          return raise ex
+            return raise ex
       else
         return! Controller.renderHtml ctx (Views.add ctx (Some input) validateResult)
     }
@@ -73,9 +73,9 @@ module Controller =
         let! result = Database.update cnf.connectionString input
         match result with
         | Ok _ ->
-          return! Controller.redirect ctx (Links.index ctx)
+            return! Controller.redirect ctx (Links.index ctx)
         | Error ex ->
-          return raise ex
+            return raise ex
       else
         return! Controller.renderHtml ctx (Views.edit ctx input validateResult)
     }
@@ -86,9 +86,9 @@ module Controller =
       let! result = Database.delete cnf.connectionString id
       match result with
       | Ok _ ->
-        return! Controller.redirect ctx (Links.index ctx)
+          return! Controller.redirect ctx (Links.index ctx)
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let resource = controller {

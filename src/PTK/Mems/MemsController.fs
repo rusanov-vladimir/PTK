@@ -5,6 +5,7 @@ open FSharp.Control.Tasks.ContextInsensitive
 open Config
 open Giraffe.Core
 open Saturn
+open Common
 
 module Controller =
 
@@ -19,9 +20,9 @@ module Controller =
       let! result = Database.getAll cnf.connectionString page
       match result with
       | Ok result ->
-        return! Controller.renderHtml ctx (Views.readIndex ctx (List.ofSeq result))
+          return! Common.MyRender ctx (Views.readIndex ctx (List.ofSeq result))
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let indexAction (ctx : HttpContext) =
@@ -34,9 +35,9 @@ module Controller =
       let! result = Database.getAll cnf.connectionString page
       match result with
       | Ok result ->
-        return! Controller.renderHtml ctx (Views.index ctx (List.ofSeq result))
+          return! Common.MyRender ctx (Views.index ctx (List.ofSeq result))
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let showAction (ctx: HttpContext) (id: int) =
@@ -46,11 +47,11 @@ module Controller =
       let! mems =Database.getById cnf.connectionString id
       match mems with
       | Ok (Some result) ->
-        return! Controller.renderHtml ctx (Mems.Views.show ctx result)
+          return! Common.MyRender ctx (Mems.Views.show ctx result)
       | Ok None ->
-        return! Controller.renderHtml ctx NotFound.layout
+          return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let readShowAction (ctx: HttpContext) (id: int) =
@@ -60,11 +61,11 @@ module Controller =
       let! mems =Database.getById cnf.connectionString id
       match mems with
       | Ok (Some result) ->
-        return! Controller.renderHtml ctx (Mems.Views.readShow ctx result)
+          return! Common.MyRender ctx (Mems.Views.readShow ctx result)
       | Ok None ->
-        return! Controller.renderHtml ctx NotFound.layout
+          return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let addAction (ctx: HttpContext) =
@@ -75,7 +76,7 @@ module Controller =
         match catsRes with
         | Ok x -> x
         | Error ex -> raise ex
-      return! Controller.renderHtml ctx (Mems.Views.add ctx None cats Map.empty )
+      return! Common.MyRender ctx (Mems.Views.add ctx None cats Map.empty )
     }
 
   let editAction (ctx: HttpContext) (id: int) =
@@ -89,11 +90,11 @@ module Controller =
         | Error ex -> raise ex
       match result with
       | Ok (Some result) ->
-        return! Controller.renderHtml ctx (Mems.Views.edit ctx result cats Map.empty)
+          return! Common.MyRender ctx (Mems.Views.edit ctx result cats Map.empty)
       | Ok None ->
-        return! Controller.renderHtml ctx NotFound.layout
+          return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let mapToDomain (input:MemViewModel) catRes =
@@ -119,16 +120,16 @@ module Controller =
         let! result = Database.insert cnf.connectionString input
         match result with
         | Ok _ ->
-          return! Controller.redirect ctx (Links.index ctx)
+            return! Controller.redirect ctx (Links.index ctx)
         | Error ex ->
-          return raise ex
+            return raise ex
       else
         let! catsRes = Categories.Database.getAll cnf.connectionString
         let cats = 
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderHtml ctx (Mems.Views.add ctx (Some mem) cats validateResult)
+        return! Common.MyRender ctx (Mems.Views.add ctx (Some mem) cats validateResult)
     }
 
   let updateAction (ctx: HttpContext) (id: int) =
@@ -142,9 +143,9 @@ module Controller =
         let! result = Database.update cnf.connectionString input
         match result with
         | Ok _ ->
-          return! Controller.redirect ctx (Links.index ctx)
+            return! Controller.redirect ctx (Links.index ctx)
         | Error ex ->
-          return raise ex
+            return raise ex
       else
 
         let! catsRes = Categories.Database.getAll cnf.connectionString
@@ -152,7 +153,7 @@ module Controller =
           match catsRes with
           | Ok x -> x
           | Error ex -> raise ex
-        return! Controller.renderHtml ctx (Mems.Views.edit ctx mem cats validateResult)
+        return! Common.MyRender ctx (Mems.Views.edit ctx mem cats validateResult)
     }
 
   let deleteAction (ctx: HttpContext) (id: int) =
@@ -161,9 +162,9 @@ module Controller =
       let! result = Database.delete cnf.connectionString id
       match result with
       | Ok _ ->
-        return! Controller.redirect ctx (Links.index ctx)
+          return! Controller.redirect ctx (Links.index ctx)
       | Error ex ->
-        return raise ex
+          return raise ex
     }
 
   let crud = controller {
