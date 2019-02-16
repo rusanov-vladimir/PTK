@@ -23,9 +23,13 @@ let loggedIn = pipeline {
     plug matchUpUsers
 }
 
-let isAdmin = pipeline {
+let requiresAdminRights = pipeline {
     plug loggedIn
     requires_role "Admin" (RequestErrors.FORBIDDEN "Must be admin")
+}
+
+let isAdmin = pipeline {
+    plug matchUpUsers
 }
 
 let browser = pipeline {
@@ -36,7 +40,7 @@ let browser = pipeline {
 }
 
 let defaultView = router {
-    get "/" Home.Controller.home
+    get "/" (isAdmin >=>Home.Controller.home)
     get "/index.html" (redirectTo false "/")
     get "/default.html" (redirectTo false "/")
 }
@@ -45,10 +49,10 @@ let browserRouter = router {
     not_found_handler (htmlView NotFound.layout) //Use the default 404 webpage
     pipe_through browser //Use the default browser pipeline
 
-    forward "" defaultView //Use the default view
-    forward "/memories" Mems.Controller.read
-    forward "/mems" (isAdmin >=> Mems.Controller.crud)
-    forward "/cats" (isAdmin >=> Categories.Controller.resource)
+    forward "" (isAdmin >=>defaultView) //Use the default view
+    forward "/memories" (isAdmin >=> Mems.Controller.read)
+    forward "/mems" (requiresAdminRights >=> Mems.Controller.crud)
+    forward "/cats" (requiresAdminRights >=> Categories.Controller.resource)
 }
 
 

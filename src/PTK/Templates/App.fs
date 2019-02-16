@@ -49,10 +49,17 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) =
                             yield li [] [
                                 a [_href "/tools"] [encodedText "Tool kit"]
                             ]
-                            yield 
+                            yield!
                                 if isAdmin 
-                                    then li [] [encodedText "test"]
-                                    else a [] [encodedText "aga"]
+                                    then [
+                                            li [] [
+                                                a [_href "/mems"] [encodedText "Manage Memories"]
+                                            ]
+                                            li [] [
+                                                a [_href "/cats"] [encodedText "Manage Categories"]
+                                            ]
+                                        ]
+                                    else []
                             yield li [] [
                                 a [_href "/contacts"] [encodedText "Contacts"]
                             ]
