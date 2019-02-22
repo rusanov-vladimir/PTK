@@ -53,7 +53,7 @@ module Views =
     ]
     App.layout ([section [_class "section"] cnt]) []
 
-  let private form (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>) isUpdate =
+  let private form (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>) isUpdate isAdmin categories =
     let validationMessage =
       div [_class "notification is-danger"] [
         a [_class "delete"; attr "aria-label" "delete"] []
@@ -96,10 +96,10 @@ module Views =
         ]
       ]
     ]
-    App.layout ([section [_class "section"] cnt]) [] true
+    App.layout ([section [_class "section"] cnt]) [] isAdmin categories
 
-  let add (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>)=
-    form ctx o validationResult false
+  let add (ctx: HttpContext) (o: Category option) (validationResult : Map<string, string>) isAdmin categories =
+    form ctx o validationResult false isAdmin categories
 
-  let edit (ctx: HttpContext) (o: Category) (validationResult : Map<string, string>) =
-    form ctx (Some o) validationResult true
+  let edit (ctx: HttpContext) (o: Category) (validationResult : Map<string, string>) isAdmin categories =
+    form ctx (Some o) validationResult true isAdmin categories

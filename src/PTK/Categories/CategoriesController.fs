@@ -32,7 +32,7 @@ module Controller =
     }
 
   let addAction (ctx: HttpContext) =
-    Controller.renderHtml ctx (Views.add ctx None Map.empty)
+    Common.MyRender ctx (Views.add ctx None Map.empty)
 
   let editAction (ctx: HttpContext) (id : int) =
     task {
@@ -40,7 +40,7 @@ module Controller =
       let! result = Database.getById cnf.connectionString id
       match result with
       | Ok (Some result) ->
-          return! Controller.renderHtml ctx (Views.edit ctx result Map.empty)
+          return! Common.MyRender ctx (Views.edit ctx result Map.empty)
       | Ok None ->
           return! Controller.renderHtml ctx NotFound.layout
       | Error ex ->
@@ -61,7 +61,7 @@ module Controller =
         | Error ex ->
             return raise ex
       else
-        return! Controller.renderHtml ctx (Views.add ctx (Some input) validateResult)
+        return! Common.MyRender ctx (Views.add ctx (Some input) validateResult)
     }
 
   let updateAction (ctx: HttpContext) (id : int) =
@@ -77,7 +77,7 @@ module Controller =
         | Error ex ->
             return raise ex
       else
-        return! Controller.renderHtml ctx (Views.edit ctx input validateResult)
+        return! Common.MyRender ctx (Views.edit ctx input validateResult)
     }
 
   let deleteAction (ctx: HttpContext) (id : int) =

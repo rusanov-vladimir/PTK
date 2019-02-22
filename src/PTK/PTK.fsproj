@@ -4,9 +4,13 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Database.fs" />
-    <Compile Include="Common.fs" />
+    <Compile Include="CommonModel.fs" />
     <Compile Include="Config.fs" />
+    <Compile Include="Database.fs" />
+    <Compile Include="CommonDatabase.fs" />
+    <Compile Include="CommonView.fs" />
+    <Compile Include="CommonLayout.fs" />
+    <Compile Include="Common.fs" />
     <Compile Include="Templates/App.fs" />
     <Compile Include="Templates/Index.fs" />
     <Compile Include="Templates/NotFound.fs" />
