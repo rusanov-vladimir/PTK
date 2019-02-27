@@ -25,6 +25,9 @@
     <Compile Include="Mems/MemsViews.fs" />
     <Compile Include="Mems/MemsRepository.fs" />
     <Compile Include="Mems/MemsController.fs" />
+    <Compile Include="Search/SearchViews.fs" />
+    <Compile Include="Search/SearchRepository.fs" />
+    <Compile Include="Search/SearchController.fs" />
     <Compile Include="Router.fs" />
     <Compile Include="Program.fs" />
     <Content Include="static/**/*.*">

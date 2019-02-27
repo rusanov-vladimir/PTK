@@ -16,12 +16,13 @@ module Database =
       FROM Mems
       JOIN Categories ON Mems.categoryId = Categories.id" 
   let pageSize  = 2  
+  let paginationQuery = " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY"
+  let truncateContentQuery (originalQuery:string) = originalQuery.Replace("Mems.content", "LEFT(Mems.content, 100) as content")
+  let paginateAndTruncateContentGetQuery (originalQuery:string) = truncateContentQuery originalQuery + paginationQuery
 
-  let getAll connectionString page: Task<Result<Mem seq, exn>> =
-    let paginationQuery = sprintf " OFFSET @skip ROWS FETCH NEXT %i ROWS ONLY" pageSize
-    let truncatedQuery = memsJoinCats.Replace("Mems.content", "LEFT(Mems.content, 100) as content")
+  let getAll connectionString page: Task<Result<seq<Mem>, exn>> =    
     queueConnection connectionString (fun connection -> 
-      queryJoin2<Mem, Category> connection (truncatedQuery + paginationQuery) combine (Some <| dict ["skip" => (page-1)*pageSize]) )
+      queryJoin2<Mem, Category> connection (paginateAndTruncateContentGetQuery memsJoinCats) combine (Some <| dict ["skip" => (page-1)*pageSize; "pagesize"=> pageSize]) )
 
   let getById connectionString id : Task<Result<Mem option, exn>> =
     queueConnection connectionString (fun connection -> 
