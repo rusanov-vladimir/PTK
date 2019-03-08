@@ -13,7 +13,8 @@ module View =
       ul [] [
         for o in objs do
           yield li [][
-              a [_href "#"][encodedText o.title] 
+              //todo: search mems by category id instead of category name
+              a [_href (sprintf "/search?searchString=%s" o.title)]  [encodedText o.title] 
               encodedText (sprintf "(%i)" o.postCount)
           ]
       ]

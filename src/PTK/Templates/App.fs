@@ -82,36 +82,6 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) (
                         ]
                         div [_class "widget widget_categories group"][
                             categories
-                            
-                            
-                            //todo: Get real categories
-                            // h3 [][encodedText "Categories."]
-                            // ul [][
-                            //     li [][
-                            //         a [_href "#"][encodedText "Wordpress"] 
-                            //         encodedText "(2)"
-                            //     ]
-                            //     li [][
-                            //         a [_href "#"][encodedText "Ghost"] 
-                            //         encodedText "(14)"
-                            //     ]
-                            //     li [][
-                            //         a [_href "#"][encodedText "Joomla"] 
-                            //         encodedText "(5)"
-                            //     ]
-                            //     li [][
-                            //         a [_href "#"][encodedText "Drupal"] 
-                            //         encodedText "(3)"
-                            //     ]
-                            //     li [][
-                            //         a [_href "#"][encodedText "Magento"] 
-                            //         encodedText "(2)"
-                            //     ]
-                            //     li [][
-                            //         a [_href "#"][encodedText "Uncategorized"] 
-                            //         encodedText "(9)"
-                            //     ]
-                            // ]
                         ]
                         div [_class "widget widget_tags"][
                             //todo: Get real tags

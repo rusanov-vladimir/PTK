@@ -20,7 +20,7 @@ module Views =
                 yield li [] [
                   div [] [
                       h3 [] [
-                          a [_class "entry-title"; _href ("/mems/"+string o.id)] [rawText o.title]
+                          a [_class "entry-title"; _href ("/memories/"+string o.id)] [rawText o.title]
                           ]
                       h6 [] [rawText (string o.content)]
                       hr []
