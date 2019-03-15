@@ -17,14 +17,16 @@ module Views =
             | 0 -> [ rawText "Nothing was found, try some other search..."]
             | _ -> [
               for o in objs do
-                yield li [] [
-                  div [] [
-                      h3 [] [
+                yield article [_class "entry"] [
+                  header [_class "entry-header"] [
+                      h2 [_class "entry-title"] [
                           a [_class "entry-title"; _href ("/memories/"+string o.id)] [rawText o.title]
                           ]
-                      h6 [] [rawText (string o.content)]
-                      hr []
                   ]
+                  div [_class "entry-meta"][
+                    h6 [] [rawText (string o.content)]
+                  ]
+                  hr []
                 ]
               ]
         ]

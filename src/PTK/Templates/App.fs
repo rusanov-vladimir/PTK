@@ -76,7 +76,7 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) (
                         div [_class "widget widget_search"][                        
                             h3 [][encodedText "Search"]
                             form [_action "/search"; _method "GET"][
-                                input [_type "text"; _name "searchString"; _value "Search here..."; _class "text-search"]
+                                input [_type "text"; _name "searchString"; _placeholder "Search here..."; _class "text-search"]
                                 input [_type "submit"; _value ""; _class "submit-search"]
                             ]
                         ]

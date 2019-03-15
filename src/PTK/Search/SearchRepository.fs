@@ -9,8 +9,8 @@ open Categories
 
 module Database =
 
-  let getMemsBySearchString connectionString searchString page : Task<Result<seq<Mem>, exn>> =
-    let wherepredicate = "WHERE Mems.title LIKE '%' || @searchString || '%' OR Mems.Content LIKE '%' || @searchString || '%' OR Categories.title LIKE '%' || @searchString || '%'"
+  let getMemsBySearchString connectionString (searchString : string) page : Task<Result<seq<Mem>, exn>> =
+    let wherepredicate = "WHERE LOWER(Mems.title) LIKE '%' || @searchString || '%' OR LOWER(Mems.Content) LIKE '%' || @searchString || '%' OR LOWER(Categories.title) LIKE '%' || @searchString || '%'"
     let query =  memsJoinCats + System.Environment.NewLine + wherepredicate
     let paginatedQuery = paginateAndTruncateContentGetQuery query
     queueConnection connectionString (fun connection -> 
@@ -18,7 +18,7 @@ module Database =
             (Some <| dict [
                 "skip" => (page-1)*pageSize;
                 "pagesize"=> pageSize;
-                "searchString"=> searchString;
+                "searchString"=> searchString.ToLower();
                 ]
             )
         )
