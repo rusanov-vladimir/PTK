@@ -2,29 +2,45 @@
 
 open System
 
-open Fake
+open Fake.Core
+open Fake.DotNet
+open Fake.IO
+open Fake.Core.TargetOperators
 
-let appPath = "./src/PTK/" |> FullName
+let appPath = "./src/PTK/" |> Path.getFullName
 
-let dotnetcliVersion = DotNetCli.GetDotNetSDKVersionFromGlobalJson()
+let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
 
-Target "Clean" DoNothing
-
-Target "InstallDotNetCore" (fun _ ->
-  DotNetCli.InstallDotNetSDK dotnetcliVersion |> ignore
+Target.create "Clean" (fun _ -> 
+  ignore()
 )
 
-
-Target "Restore" (fun _ ->
-    DotNetCli.Restore (fun p -> {p with WorkingDir = appPath})
+Target.create "InstallDotNetCore" (fun _ ->
+    let setParams (options : DotNet.CliInstallOptions) =
+        { options with
+            Version = DotNet.Version dotnetcliVersion }
+    DotNet.install setParams |> ignore
 )
 
-Target "Build" (fun _ ->
-    DotNetCli.Build(fun p -> {p with WorkingDir = appPath})
+Target.create "Restore" (fun _ ->
+    let setParams (options : Paket.PaketRestoreParams) =
+        { options with
+            WorkingDir = appPath }
+    Paket.restore setParams |> ignore
 )
 
-Target "Publish" (fun _ ->
-    DotNetCli.Publish(fun p -> {p with WorkingDir = appPath})
+Target.create "Build" (fun _ ->
+    let setParams (options : DotNet.BuildOptions) =
+        { options with
+            BuildBasePath = Some appPath }
+    DotNet.build setParams |> ignore
+)
+
+Target.create "Publish" (fun _ ->
+    let setParams (options : DotNet.PublishOptions) =
+        { options with
+            BuildBasePath = Some appPath }
+    DotNet.publish setParams |> ignore
     let prc = new Diagnostics.Process()
     prc.StartInfo.FileName <- "docker"
     prc.StartInfo.Arguments <- "restart ptk"
@@ -35,9 +51,12 @@ Target "Publish" (fun _ ->
     prc.Start() |> ignore
 )
 
-Target "Run" (fun () ->
+Target.create "Run" (fun _ ->
   let server = async {
-    DotNetCli.RunCommand (fun p -> {p with WorkingDir = appPath}) "watch run"
+    let setParams (options : DotNet.Options) =
+        { options with
+            WorkingDirectory = appPath }
+    DotNet.exec setParams "watch" "run" |> ignore
   }
   let browser = async {
     Threading.Thread.Sleep 5000
@@ -58,4 +77,4 @@ Target "Run" (fun () ->
   ==> "Restore"
   ==> "Run"
 
-RunTargetOrDefault "Build"
+Target.runOrDefault "Build"
