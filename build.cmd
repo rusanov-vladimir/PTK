@@ -1,14 +1,17 @@
 @echo off
 cls
 
-IF EXIST "paket.lock" (
-  .paket\paket.exe restore
-) ELSE (
-  .paket\paket.exe install
-)
+REM IF EXIST "paket.lock" (
+REM   .paket\paket.exe restore
+REM ) ELSE (
+REM   .paket\paket.exe install
+REM )
 
-if errorlevel 1 (
-  exit /b %errorlevel%
-)
+REM if errorlevel 1 (
+REM   exit /b %errorlevel%
+REM )
 
-packages\build\FAKE\tools\FAKE.exe build.fsx %*
+REM packages\build\FAKE\tools\FAKE.exe build.fsx %*
+
+dotnet tool install fake-cli -g
+fake run build.fsx %*

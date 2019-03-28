@@ -1,5 +1,10 @@
-#r @"packages/build/FAKE/tools/FakeLib.dll"
-
+#r "paket: 
+  nuget FSharp.Core 
+  nuget Fake.DotNet.Cli
+  nuget Fake.DotNet.Paket
+  nuget Fake.IO.FileSystem
+  nuget Fake.Core.Target //"
+#load "./.fake/build.fsx/intellisense.fsx"
 open System
 
 open Fake.Core
@@ -77,4 +82,4 @@ Target.create "Run" (fun _ ->
   ==> "Restore"
   ==> "Run"
 
-Target.runOrDefault "Build"
+Target.runOrDefaultWithArguments "Build"
