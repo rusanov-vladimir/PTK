@@ -1,4 +1,4 @@
-FROM microsoft/dotnet:2.1.403-sdk AS build-env
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build-env
 
 ENV MONO_VERSION 5.10.0.160
 
@@ -24,7 +24,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM microsoft/dotnet:2.1.5-aspnetcore-runtime
+FROM mcr.microsoft.com/dotnet/core/runtime:2.2
 WORKDIR /app
 COPY --from=build-env /app/src/PTK/out/ .
 ENTRYPOINT ["dotnet", "PTK.dll"]

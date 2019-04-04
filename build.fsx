@@ -1,3 +1,8 @@
+#if !FAKE
+  #r "netstandard" // windows
+  #r "Facades/netstandard" // mono
+  #r "./packages/NETStandard.Library/build/netstandard2.0/ref/netstandard.dll"
+#endif
 #r "paket: 
   nuget FSharp.Core 
   nuget Fake.DotNet.Cli
@@ -25,6 +30,7 @@ Target.create "InstallDotNetCore" (fun _ ->
         { options with
             Version = DotNet.Version dotnetcliVersion }
     DotNet.install setParams |> ignore
+    ()
 )
 
 Target.create "Restore" (fun _ ->

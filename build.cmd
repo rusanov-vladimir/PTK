@@ -1,17 +1,10 @@
 @echo off
 cls
 
-REM IF EXIST "paket.lock" (
-REM   .paket\paket.exe restore
-REM ) ELSE (
-REM   .paket\paket.exe install
-REM )
+SET TOOL_PATH=.fake
 
-REM if errorlevel 1 (
-REM   exit /b %errorlevel%
-REM )
+IF NOT EXIST "%TOOL_PATH%\fake.exe" (
+  dotnet tool install fake-cli --tool-path ./%TOOL_PATH%
+)
 
-REM packages\build\FAKE\tools\FAKE.exe build.fsx %*
-
-dotnet tool install fake-cli -g
-fake run build.fsx %*
+"%TOOL_PATH%/fake.exe" run %*

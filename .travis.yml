@@ -3,7 +3,7 @@ language: csharp
 #solution: PTK.sln
 sudo: required
 mono: 5.16.0
-dotnet: 2.1.4
+dotnet: 2.2.2
 
 services:
   - docker
