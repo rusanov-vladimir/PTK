@@ -18,6 +18,7 @@ open Fake.IO
 open Fake.Core.TargetOperators
 
 let appPath = "./src/PTK/" |> Path.getFullName
+let projectPath = Path.combine appPath "PTK.fsproj"
 
 let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
 
@@ -41,10 +42,7 @@ Target.create "Restore" (fun _ ->
 )
 
 Target.create "Build" (fun _ ->
-    let setParams (options : DotNet.BuildOptions) =
-        { options with
-            BuildBasePath = Some appPath }
-    DotNet.build setParams |> ignore
+     DotNet.build id projectPath
 )
 
 Target.create "Publish" (fun _ ->
@@ -82,6 +80,7 @@ Target.create "Run" (fun _ ->
 
 "Clean"
   ==> "InstallDotNetCore"
+  ==> "Restore"
   ==> "Build"
 
 "Clean"
