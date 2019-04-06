@@ -52,6 +52,9 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
+#Run Migrations
+RUN dotnet /app/src/Migrations/bin/Release/netcoreapp2.0/Migrations.dll
+
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2
 WORKDIR /app

@@ -16,14 +16,21 @@ open Fake.Core
 open Fake.DotNet
 open Fake.IO
 open Fake.Core.TargetOperators
+open System.Threading
 
-let appPath = "./src/PTK/" |> Path.getFullName
-let projectPath = Path.combine appPath "PTK.fsproj"
+let appPath = "./src" |> Path.getFullName
+let ptkProjectPath = Path.combine appPath "PTK/PTK.fsproj"
+let migrationProjectPath = Path.combine appPath "Migrations/Migrations.fsproj"
 
 let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
 
-Target.create "Clean" (fun _ -> 
-  ignore()
+let directoriesToClean () =
+    DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath appPath)
+    |> Array.collect (fun x -> [|Path.combine x.FullName "bin"; Path.combine x.FullName "obj"|])
+
+Target.create "Clean" (fun _ ->
+    Trace.log "--- Cleaning stuff ---"
+    Shell.cleanDirs (directoriesToClean())
 )
 
 Target.create "InstallDotNetCore" (fun _ ->
@@ -42,7 +49,8 @@ Target.create "Restore" (fun _ ->
 )
 
 Target.create "Build" (fun _ ->
-     DotNet.build id projectPath
+     DotNet.build id ptkProjectPath
+     DotNet.build id migrationProjectPath
 )
 
 Target.create "Publish" (fun _ ->
@@ -62,14 +70,11 @@ Target.create "Publish" (fun _ ->
 
 Target.create "Run" (fun _ ->
   let server = async {
-    let setParams (options : DotNet.Options) =
-        { options with
-            WorkingDirectory = appPath }
-    DotNet.exec setParams "watch" "run" |> ignore
+    DotNet.exec (fun p -> { p with WorkingDirectory = Path.combine appPath "PTK" } ) "watch" "run" |> ignore
   }
   let browser = async {
-    Threading.Thread.Sleep 5000
-    Diagnostics.Process.Start "http://localhost:8085" |> ignore
+    Thread.Sleep 5000
+    Process.start (fun i -> { i with FileName = "http://localhost:8085" }) |> ignore
   }
 
   [ server; browser]
