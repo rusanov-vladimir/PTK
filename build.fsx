@@ -26,7 +26,11 @@ let dotnetcliVersion = DotNet.getSDKVersionFromGlobalJson()
 
 let directoriesToClean () =
     DirectoryInfo.getSubDirectories (DirectoryInfo.ofPath appPath)
-    |> Array.collect (fun x -> [|Path.combine x.FullName "bin"; Path.combine x.FullName "obj"|])
+    |> Array.collect (fun x -> [|
+      Path.combine x.FullName "bin";
+      Path.combine x.FullName "obj";
+      Path.combine x.FullName "out";
+      |])
 
 Target.create "Clean" (fun _ ->
     Trace.log "--- Cleaning stuff ---"

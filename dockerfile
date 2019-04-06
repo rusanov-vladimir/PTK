@@ -52,12 +52,15 @@ RUN dotnet restore
 COPY . ./
 RUN dotnet publish -c Release -o out
 
-#Run Migrations
-RUN dotnet /app/src/Migrations/bin/Release/netcoreapp2.0/Migrations.dll
-
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime:2.2
 WORKDIR /app
 COPY --from=build-env /app/src/PTK/out/ .
-ENTRYPOINT ["dotnet", "PTK.dll"]
+COPY --from=build-env /app/src/Migrations/out/ ./Migrations
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["sh", "-c", "`dotnet ./Migrations/Migrations.dll; dotnet PTK.dll`"]
+#Run Migrations
 CMD [""]
