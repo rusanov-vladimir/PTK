@@ -10,6 +10,7 @@ type Mem = {
   title: string
   content: string
   author: string
+  tstamp : DateTime
   category: Category 
 }
 

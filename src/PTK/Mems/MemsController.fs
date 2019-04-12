@@ -107,7 +107,7 @@ module Controller =
         | Some cat ->  cat
         | None -> raise (System.ArgumentException("Category not found!"))
 
-    {id = input.id; title = input.title; category = cat; author = input.author; content = input.content }
+    {id = input.id; title = input.title; category = cat; author = input.author; content = input.content; tstamp = input.tstamp }
 
   let createAction (ctx: HttpContext) =
     task {

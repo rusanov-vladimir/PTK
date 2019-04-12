@@ -1,4 +1,5 @@
 namespace Mems
+open System
 
 [<CLIMutable>]
 type MemViewModel = {
@@ -6,5 +7,6 @@ type MemViewModel = {
   title: string
   content: string
   author: string
+  tstamp : DateTime
   categoryId: int
 }

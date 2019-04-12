@@ -12,7 +12,7 @@ module Database =
   
   let memsJoinCats ="
       SELECT 
-        Mems.id, Mems.title, Mems.content, Mems.author, Categories.id, Categories.title 
+        Mems.id, Mems.title, Mems.content, Mems.author, Mems.tstamp, Categories.id, Categories.title
       FROM Mems
       JOIN Categories ON Mems.categoryId = Categories.id" 
   let pageSize  = 2  
@@ -21,8 +21,9 @@ module Database =
   let paginateAndTruncateContentGetQuery (originalQuery:string) = truncateContentQuery originalQuery + paginationQuery
 
   let getAll connectionString page: Task<Result<seq<Mem>, exn>> =    
+    let finalQuery = paginateAndTruncateContentGetQuery memsJoinCats
     queueConnection connectionString (fun connection -> 
-      queryJoin2<Mem, Category> connection (paginateAndTruncateContentGetQuery memsJoinCats) combine (Some <| dict ["skip" => (page-1)*pageSize; "pagesize"=> pageSize]) )
+      queryJoin2<Mem, Category> connection finalQuery combine (Some <| dict ["skip" => (page-1)*pageSize; "pagesize"=> pageSize]) )
 
   let getById connectionString id : Task<Result<Mem option, exn>> =
     queueConnection connectionString (fun connection -> 
@@ -34,7 +35,7 @@ module Database =
 
   let insert connectionString v : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
-      execute connection "INSERT INTO Mems(title, content, author, categoryId) VALUES (@title, @content, @author, @categoryId)" v )
+      execute connection "INSERT INTO Mems(title, content, author, categoryId, tstamp) VALUES (@title, @content, @author, @categoryId, current_timestamp)" v )
 
   let delete connectionString id : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
