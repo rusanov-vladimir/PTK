@@ -26,7 +26,7 @@ module Views =
               ]
               div [_class "entry-meta"][
                 ul [][
-                  li [] [rawText (string o.tstamp)]
+                  li [] [rawText (string (if o.modifieddate.IsNone  then o.tstamp else o.modifieddate.Value))]
                   span [_class "meta-sep"][rawText "&bull;"]
                   li [] [
                     a [_href "#"; _title o.category.title; _rel "category tag"] [rawText o.category.title]

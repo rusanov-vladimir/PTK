@@ -8,6 +8,7 @@
 
     <Compile Include="201804111534.Mem.fs" />
     <Compile Include="201904120937.Mem.fs" />
+    <Compile Include="201904151326.Mem.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

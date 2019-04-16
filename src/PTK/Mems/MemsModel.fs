@@ -11,6 +11,7 @@ type Mem = {
   content: string
   author: string
   tstamp : DateTime
+  modifieddate: DateTime option
   category: Category 
 }
 

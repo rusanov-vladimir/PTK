@@ -12,7 +12,7 @@ module Database =
   
   let memsJoinCats ="
       SELECT 
-        Mems.id, Mems.title, Mems.content, Mems.author, Mems.tstamp, Categories.id, Categories.title
+        Mems.id, Mems.title, Mems.content, Mems.author, Mems.tstamp, Mems.modifieddate, Categories.id, Categories.title
       FROM Mems
       JOIN Categories ON Mems.categoryId = Categories.id" 
   let pageSize  = 2  
@@ -31,7 +31,7 @@ module Database =
 
   let update connectionString v : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 
-      execute connection "UPDATE Mems SET id = @id, title = @title, content = @content, author = @author, categoryId = @categoryId WHERE id=@id" v )
+      execute connection "UPDATE Mems SET id = @id, title = @title, content = @content, author = @author, categoryId = @categoryId, modifieddate=current_timestamp WHERE id=@id" v )
 
   let insert connectionString v : Task<Result<int,exn>> =
     queueConnection connectionString (fun connection -> 

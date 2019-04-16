@@ -57,6 +57,10 @@ Target.create "Build" (fun _ ->
      DotNet.build id migrationProjectPath
 )
 
+Target.create "MigrateDb" (fun _ ->
+    DotNet.exec id "./src/Migrations/bin/Release/netcoreapp2.0/Migrations.dll" "" |> ignore
+)
+
 Target.create "Publish" (fun _ ->
     let setParams (options : DotNet.PublishOptions) =
         { options with
@@ -92,8 +96,8 @@ Target.create "Run" (fun _ ->
   ==> "Restore"
   ==> "Build"
 
-"Clean"
-  ==> "Restore"
+"Build"
+  ==> "MigrateDb"
   ==> "Run"
 
 Target.runOrDefaultWithArguments "Build"
