@@ -13,6 +13,15 @@ type EditorType =
   | MultiLine
 
 module Views =
+
+  let lastChanged mem =
+    if mem.modifieddate.IsNone  then Some mem.tstamp else mem.modifieddate
+  let toDisplayDate (date:DateTime option) =
+    match date with
+    | Some x -> x.ToShortDateString()
+    | None -> String.Empty
+  let lastChangedToDisplaydate = lastChanged >> toDisplayDate  
+
   let readIndex (ctx : HttpContext) (objs : Mem list) =
     let cnt = [
       div [_class "container "] [
@@ -26,7 +35,7 @@ module Views =
               ]
               div [_class "entry-meta"][
                 ul [][
-                  li [] [rawText (string (if o.modifieddate.IsNone  then o.tstamp else o.modifieddate.Value))]
+                  li [] [rawText (lastChangedToDisplaydate o)]
                   span [_class "meta-sep"][rawText "&bull;"]
                   li [] [
                     a [_href "#"; _title o.category.title; _rel "category tag"] [rawText o.category.title]
@@ -56,6 +65,7 @@ module Views =
               th [] [rawText "Content"]
               th [] [rawText "Author"]
               th [] [rawText "Category"]
+              th [] [rawText "Last change"]
               th [] []
             ]
           ]
@@ -66,6 +76,7 @@ module Views =
                 td [] [o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText]
                 td [] [rawText (string o.author)]
                 td [] [rawText (string o.category.title)]
+                td [] [rawText (lastChangedToDisplaydate o)]
                 td [] [
                   a [_class "button is-text"; _href (Links.withId ctx (string o.id) )] [rawText "Show"]
                   a [_class "button is-text"; _href (Links.edit ctx (string o.id) )] [rawText "Edit"]
@@ -86,6 +97,7 @@ module Views =
       div [_class "container "] [
         h2 [ _class "title"] [rawText o.title]
         ul [] [
+          li [] [rawText (lastChangedToDisplaydate o)]
           li [] [ o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
           li [] [ strong [] [rawText "Category: "]; rawText (string o.category.title) ]
@@ -101,6 +113,7 @@ module Views =
       div [_class "container "] [
         h2 [ _class "title"] [rawText o.title]
         ul [] [
+          li [] [rawText (lastChangedToDisplaydate o)]
           li [] [ o.content |> string |>  Markdown.Parse |> Markdown.WriteHtml |> rawText ]
           li [] [ strong [] [rawText "Author: "]; rawText (string o.author) ]
           li [] [ strong [] [rawText "Category: "]; rawText (string o.category.title) ]

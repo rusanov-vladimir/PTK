@@ -16,9 +16,10 @@ module Database =
       FROM Mems
       JOIN Categories ON Mems.categoryId = Categories.id" 
   let pageSize  = 2  
+  let orderingQuery = " ORDER BY Mems.modifieddate DESC, Mems.tstamp DESC"
   let paginationQuery = " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY"
   let truncateContentQuery (originalQuery:string) = originalQuery.Replace("Mems.content", "LEFT(Mems.content, 100) as content")
-  let paginateAndTruncateContentGetQuery (originalQuery:string) = truncateContentQuery originalQuery + paginationQuery
+  let paginateAndTruncateContentGetQuery (originalQuery:string) = truncateContentQuery originalQuery + orderingQuery + paginationQuery
 
   let getAll connectionString page: Task<Result<seq<Mem>, exn>> =    
     let finalQuery = paginateAndTruncateContentGetQuery memsJoinCats
