@@ -18,10 +18,10 @@ RUN apt-get update \
     && apt-get -qq -y install curl
 
 # Install .NET Core SDK
-ENV DOTNET_SDK_VERSION 2.2.202
+ENV DOTNET_SDK_VERSION 3.0.100-preview4-011223
 
 RUN curl -SL --output dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-x64.tar.gz \
-    && dotnet_sha512='14f5c0e6fbb874a882334e0d500e494b01d7f363028e72db58dfff6db43c54670533539dcf6b8f50a97ce1e099119a8286ce84e193b361d65b1fd8c7dffce63d' \
+    && dotnet_sha512='b416dd4014ad62c7d19413c44738f1cc6152c94570c31dc953be16bfeadecf449b2aab7ecc09c9d3fcd12b2d440f281a0c8f1ad0635bc035adb34c26f8d1e2ae' \
     && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
     && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
@@ -53,7 +53,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime:2.2
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0.0-preview4
 WORKDIR /app
 COPY --from=build-env /app/src/PTK/out/ .
 COPY --from=build-env /app/src/Migrations/out/ ./Migrations
