@@ -54,6 +54,7 @@ let browserRouter = router {
     forward "/search" (isAdmin >=> Search.Controller.search)
     forward "/mems" (requiresAdminRights >=> Mems.Controller.crud)
     forward "/cats" (requiresAdminRights >=> Categories.Controller.resource)
+    forward "/admin" (requiresAdminRights >=> Mems.Controller.crud)
 }
 
 

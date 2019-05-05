@@ -44,7 +44,7 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) (
                                 a [_href "/"] [encodedText "Home"]
                             ]
                             yield li [] [
-                                a [_href "/memories"] [encodedText "Memories3615"]
+                                a [_href "/memories"] [encodedText "Memories"]
                             ]
                             yield li [] [
                                 a [_href "/tools"] [encodedText "Tool kit"]
@@ -60,6 +60,9 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) (
                                             ]
                                         ]
                                     else []
+                            yield li [] [
+                                a [_href "/about"] [encodedText "About"]
+                            ]
                             yield li [] [
                                 a [_href "/contacts"] [encodedText "Contacts"]
                             ]
@@ -117,50 +120,37 @@ let layout (content: XmlNode list) (customScripts:XmlNode list) (isAdmin:bool) (
             
             yield footer [] [
                 div [_class "row"] [
-                    div [_class "twelve columns"] [
-                        ul [_class "social-links"][
-                           li [][a [_href "#"][i [_class "fa fa-facebook"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-twitter"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-google-plus"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-github-square"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-instagram"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-flickr"] []]]
-                           li [][a [_href "#"][i [_class "fa fa-skype"] []]]
-                        ]
-                    ]
+ 
                     div [_class "six columns info"][
-                        h3 [][encodedText "About Keep It Simple"]
+                        h3 [][encodedText "About Personal Tool Kit"]
                         p [][encodedText 
-                                "This is Photoshop's version  of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. "
+                                "This site is born out of curiosity for functional programming and F# particulary. Now it's a home for casual notes on various topics."
                             ]
                         p [][encodedText 
-                                "Lorem ipsum Sed nulla deserunt voluptate elit occaecat culpa cupidatat sit irure sint sint incididunt cupidatat esse in Ut sed commodo tempor consequat culpa fugiat incididunt."
+                                "It's free and opensource, so everybody can inspire from it checking out Github repo. Thanks for Heroku free hosting and Travis CI for being able to make it public."
                             ]
                     ]
                     div [_class "four columns"][
-                        h3 [][encodedText "Photostream"]
-                        ul [_class"photostream group"][
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
-                            li [][a [_href "#"][img [_alt "thumbnail"; _src "/images/thumb.jpg"] ]]
+                        h3 [][encodedText "Social links"]
+                        ul [_class"social-links photostream group"][
+                               li [][a [_href "https://www.facebook.com/vladimir.rusanov.5"][i [_class "fa fa-facebook"] []]]
+                               li [][a [_href "https://twitter.com/3615us"][i [_class "fa fa-twitter"] []]]
+                               li [][a [_href "https://github.com/rusanov-vladimir"][i [_class "fa fa-github-square"] []]]
+                               li [][a [_href "https://vk.com/id6559326"][i [_class "fa fa-vk"] []]]
                         ]
                     ]
                     div [_class "two columns"][
                         h3 [_class "social"][encodedText "Navigate"]
                         ul [_class "navigate group"][
-                            li [][a [_href "#"][encodedText "Home"]]
-                            li [][a [_href "#"][encodedText "Blog"]]
-                            li [][a [_href "#"][encodedText "Demo"]]
-                            li [][a [_href "#"][encodedText "Archives"]]
-                            li [][a [_href "#"][encodedText "About"]]
+                            li [][a [_href "/"][encodedText "Home"]]
+                            li [][a [_href "/memories"][encodedText "Memories"]]
+                            li [][a [_href "/tools"][encodedText "Tools"]]
+                            li [][a [_href "/contacts"][encodedText "Contacts"]]
+                            li [][a [_href "/about"][encodedText "About"]]
+                            li [][a [_href "/admin"][encodedText "Admin"]]
                         ]
                     ]
-                    p [_class "copyright"][rawText """&copy; Copyright 2014 Keep It Simple. &nbsp;"""]
+                    p [_class "copyright"][rawText """&copy; Copyright 2014 Personal Tool Kit. &nbsp;"""]
                 ] //end row
                 div [_id "go-top"][
                     a [_class "smoothscroll"; _title "Back to Top"; _href "#top"][
