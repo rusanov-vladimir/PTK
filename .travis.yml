@@ -1,10 +1,14 @@
 dist: bionic
 language: csharp
-#language: minimal
-#solution: PTK.sln
+addons:
+  snaps:
+  - name: dotnet-sdk
+    classic: true
+    channel: latest/beta
 sudo: required
+language: csharp
 mono: 5.16.0
-dotnet: 2.2.2
+# dotnet: 2.2.2
 
 services:
   - docker
@@ -12,6 +16,8 @@ services:
 install: true
 
 script:
+- sudo snap alias dotnet-sdk.dotnet dotnet
+- dotnet --version
 - sudo ./build.sh
 - echo "$DPWD" | docker login -u "$DUSR" --password-stdin
 - docker build -t ptk .
