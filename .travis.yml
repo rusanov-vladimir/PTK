@@ -8,7 +8,7 @@ addons:
 sudo: required
 language: csharp
 mono: 5.16.0
-# dotnet: 2.2.2
+#dotnet: 2.2.2
 
 services:
   - docker
@@ -16,6 +16,7 @@ services:
 install: true
 
 script:
+- set -e
 - sudo snap alias dotnet-sdk.dotnet dotnet
 - dotnet --version
 - sudo ./build.sh
@@ -25,3 +26,4 @@ script:
 - docker login --username $HEROKU_DOCKER_USERNAME --password $HEROKU_AUTH_TOKEN registry.heroku.com
 - docker push registry.heroku.com/ptk2/web
 - sudo ./heroku-container-release.sh
+- set +e
