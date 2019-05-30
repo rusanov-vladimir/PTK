@@ -45,9 +45,24 @@ let defaultView = router {
     get "/default.html" (redirectTo false "/")
 }
 
+
+let api = pipeline {
+    plug acceptJson
+    set_header "x-pipeline-type" "Api"
+}
+
+let apiRouter = router {
+    not_found_handler (setStatusCode 404 >=> text "Api 404")
+    pipe_through api
+    forward "/mems" (isAdmin >=> Mems.Controller.api)
+}
+
+
 let browserRouter = router {
     not_found_handler (htmlView NotFound.layout) //Use the default 404 webpage
     pipe_through browser //Use the default browser pipeline
+
+    forward "/api" apiRouter
 
     forward "" (isAdmin >=>defaultView) //Use the default view
     forward "/memories" (isAdmin >=> Mems.Controller.read)
@@ -55,26 +70,4 @@ let browserRouter = router {
     forward "/mems" (requiresAdminRights >=> Mems.Controller.crud)
     forward "/cats" (requiresAdminRights >=> Categories.Controller.resource)
     forward "/admin" (requiresAdminRights >=> Mems.Controller.crud)
-}
-
-
-
-
-//Other scopes may use different pipelines and error handlers
-
-// let api = pipeline {
-//     plug acceptJson
-//     set_header "x-pipeline-type" "Api"
-// }
-
-// let apiRouter = scope {
-//     error_handler (text "Api 404")
-//     pipe_through api
-//
-//     forward "/someApi" someScopeOrController
-// }
-
-let router = router {
-    // forward "/api" apiRouter
-    forward "" browserRouter
 }

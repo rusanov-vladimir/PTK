@@ -6,8 +6,39 @@ open Config
 open Giraffe.Core
 open Saturn
 open Common
+open Saturn.ControllerHelpers.Controller
 
 module Controller =
+
+  let readIndexActionApi (ctx : HttpContext) =
+    task {
+      let cnf = Controller.getConfig ctx
+      let page =
+        match ctx.TryGetQueryStringValue "page" with
+        | None   -> 1
+        | Some p -> int p
+
+      let! result = Database.getAll cnf.connectionString page
+      match result with
+      | Ok result ->
+          return! json ctx (List.ofSeq result)
+      | Error ex ->
+          return raise ex
+    }
+
+  let readShowActionApi (ctx: HttpContext) (id: int) =
+    task {
+
+      let cnf = Controller.getConfig ctx
+      let! mems =Database.getById cnf.connectionString id
+      match mems with
+      | Ok (Some result) ->
+          return! json ctx result
+      | Ok None ->
+          return! json ctx []
+      | Error ex ->
+          return raise ex
+    }
 
   let readIndexAction (ctx : HttpContext) =
     task {
@@ -180,5 +211,10 @@ module Controller =
   let read = controller {
     index readIndexAction
     show readShowAction
+  }
+
+  let api = controller {
+    index readIndexActionApi
+    show readShowActionApi
   }
 
