@@ -2,6 +2,12 @@
 
 set -eu
 set -o pipefail
+#use latest dotnet sdk from snap
+export DOTNET_ROOT=$HOME/dotnet
+export PATH=$PATH:${DOTNET_ROOT}
+#enforce rolling to latest dotnet version
+export DOTNET_ROLL_FORWARD_ON_NO_CANDIDATE_FX=2 
+export DOTNET_ROLL_FORWARD=Major
 
 # liberated from https://stackoverflow.com/a/18443300/433393
 realpath() {

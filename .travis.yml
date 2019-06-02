@@ -1,10 +1,10 @@
 dist: bionic
 language: csharp
-addons:
-  snaps:
-  - name: dotnet-sdk
-    classic: true
-    channel: latest/beta
+# addons:
+#   snaps:
+#   - name: dotnet-sdk
+#     classic: true
+#     channel: latest/beta
 sudo: required
 language: csharp
 mono: 5.16.0
@@ -17,7 +17,9 @@ install: true
 
 script:
 - set -e
-- sudo snap alias dotnet-sdk.dotnet dotnet
+- wget https://download.visualstudio.microsoft.com/download/pr/7e4b403c-34b3-4b3e-807c-d064a7857fe8/95c738f08e163f27867e38c602a433a1/dotnet-sdk-3.0.100-preview5-011568-linux-x64.tar.gz
+- mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-3.0.100-preview5-011568-linux-x64.tar.gz -C $HOME/dotnet
+- export DOTNET_ROLL_FORWARD_ON_NO_CANDIDATE_FX=2 && export DOTNET_ROLL_FORWARD=Major && export DOTNET_ROOT=$HOME/dotnet && export PATH=$PATH:${DOTNET_ROOT}
 - dotnet --version
 - sudo ./build.sh
 - echo "$DPWD" | docker login -u "$DUSR" --password-stdin
