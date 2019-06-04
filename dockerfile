@@ -53,7 +53,7 @@ COPY . ./
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/core/runtime:3.0.0-preview4
+FROM mcr.microsoft.com/dotnet/core/runtime:3.0.0-preview5
 WORKDIR /app
 COPY --from=build-env /app/src/PTK/out/ .
 COPY --from=build-env /app/src/Migrations/out/ ./Migrations
