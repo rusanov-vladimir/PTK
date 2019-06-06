@@ -50,17 +50,14 @@ RUN dotnet restore
 
 # Copy everything else and build
 COPY . ./
-RUN dotnet publish -c Release -o out
+RUN dotnet publish -c Release -f netcoreapp3.0 -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/core/runtime:3.0.0-preview5
 WORKDIR /app
-COPY --from=build-env /app/src/PTK/out/ .
-COPY --from=build-env /app/src/Migrations/out/ ./Migrations
+COPY --from=build-env /app/out/ .
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
-#ENTRYPOINT ["sh", "-c", "`dotnet ./Migrations/Migrations.dll; dotnet PTK.dll`"]
-#Run Migrations
 CMD [""]

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-dotnet ./Migrations/Migrations.dll 
+dotnet Migrations.dll 
 dotnet PTK.dll
