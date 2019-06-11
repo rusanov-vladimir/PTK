@@ -10,15 +10,15 @@ let inline (=>) k v = k, box v
 
 let locker = new System.Object() 
 let queueConnection connectionString (functor :NpgsqlConnection -> System.Threading.Tasks.Task<'T>) =
-    lock locker (fun()->
-    use connection = new NpgsqlConnection(connectionString)
-    System.Diagnostics.Debug.WriteLine("opening connection")
-    connection.Open()
-    let res = functor connection 
-    res.Wait()
-    System.Diagnostics.Debug.WriteLine("closing connection")
-    connection.Close()
-    res)
+    task{
+        use connection = new NpgsqlConnection(connectionString)
+        System.Diagnostics.Debug.WriteLine("opening connection")
+        connection.Open()
+        let! res = functor connection 
+        System.Diagnostics.Debug.WriteLine("closing connection")
+        connection.Close()
+        return res
+    }
 
 let execute (connection:#DbConnection) (sql:string) (data:_) =
     task {
