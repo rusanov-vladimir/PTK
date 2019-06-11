@@ -38,18 +38,20 @@ type BookService(env: IWebHostEnvironment) =
 
             signIn = Remote.withContext <| fun http (username, password) -> async {
                 if password = "password" then
-                    do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
+                    //do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
                     return Some username
                 else
                     return None
             }
 
             signOut = Remote.withContext <| fun http () -> async {
-                return! http.AsyncSignOut()
+                //return! http.AsyncSignOut()
+                return ()
             }
 
             getUsername = Remote.authorize <| fun http () -> async {
-                return http.User.Identity.Name
+                //return http.User.Identity.Name
+                return "wrong"
             }
         }
 
@@ -64,8 +66,9 @@ type Startup() =
                 .AddCookie()
                 .Services
             .AddRemoting<BookService>()
+            .AddServerSideBlazor()
 #if DEBUG
-            .AddHotReload(templateDir = "../../../../PTK.Presentation.Client")
+            .AddHotReload(templateDir = "../PTK.Presentation.Client")
 #endif
         |> ignore
 
@@ -73,11 +76,17 @@ type Startup() =
     member this.Configure(app: IApplicationBuilder, env: IWebHostEnvironment) =
         app
             .UseAuthentication()
+            .UseStaticFiles()
+            .UseRouting()
             .UseRemoting()
+            .UseEndpoints(fun endpoints ->
+                endpoints.MapBlazorHub<Client.Main.MyApp>("#main") |> ignore
+                endpoints.MapFallbackToFile("index.html") |> ignore
+            )
 #if DEBUG
             .UseHotReload()
 #endif
-            .UseBlazor<Client.Startup>()
+            //.UseBlazor<Client.Startup>()
         |> ignore
 
 module Program =

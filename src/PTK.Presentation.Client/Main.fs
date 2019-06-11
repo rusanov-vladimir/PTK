@@ -210,6 +210,8 @@ let homePage model dispatch =
     //let f = (fun (x:bool) (n:Node) -> node)
     let res = readIndex [] false node
     originalRes
+    res
+    div [] [text "Hello, world!"]
 
 let counterPage model dispatch =
     Main.Counter()
