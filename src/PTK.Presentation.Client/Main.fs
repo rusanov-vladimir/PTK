@@ -12,8 +12,8 @@ open Bolero.Templating.Client
 /// Routing endpoints definition.
 type Page =
     | [<EndPoint "/">] Home
-    | [<EndPoint "/counter">] Counter
-    | [<EndPoint "/data">] Data
+    // | [<EndPoint "/counter">] Counter
+    // | [<EndPoint "/data">] Data
 
 /// The Elmish application's model.
 type Model =
@@ -92,6 +92,33 @@ type BookService =
     interface IRemoteService with
         member this.BasePath = "/books"
 
+
+
+/// Remote service definition.
+type MemService =
+    {
+        /// Get the list of all books in the collection.
+        getMems: unit -> Async<Mem[]>
+
+        /// Add a book in the collection.
+        // addBook: Book -> Async<unit>
+
+        // /// Remove a book from the collection, identified by its ISBN.
+        // removeBookByIsbn: string -> Async<unit>
+
+        // /// Sign into the application.
+        // signIn : string * string -> Async<option<string>>
+
+        // /// Get the user's name, or None if they are not authenticated.
+        // getUsername : unit -> Async<string>
+
+        // /// Sign out from the application.
+        // signOut : unit -> Async<unit>
+    }
+
+    interface IRemoteService with
+        member this.BasePath = "/memories"    
+
 /// The Elmish application's update messages.
 type Message =
     | SetPage of Page
@@ -160,7 +187,7 @@ let update remote message model =
 /// Connects the routing system to the Elmish application.
 let router = Router.infer SetPage (fun model -> model.page)
 
-type Main = Template<"wwwroot/main.html">
+type Main = Template<"wwwroot/newMain.html">
 
 
 let lastChanged mem =
@@ -205,54 +232,48 @@ let readIndex (objs : Mem list) =
     App.layout ([section [attr.``class`` "section"] cnt]) [script [attr.src "/memoriesRead.js"] []]
 
 let homePage model dispatch =
-    let originalRes = Main.Home().Elt()
-    let node = div[][]
-    //let f = (fun (x:bool) (n:Node) -> node)
-    let res = readIndex [] false node
-    originalRes
-    res
-    div [] [text "Hello, world!"]
+    Main.Home().Elt()
 
-let counterPage model dispatch =
-    Main.Counter()
-        .Decrement(fun _ -> dispatch Decrement)
-        .Increment(fun _ -> dispatch Increment)
-        .Value(model.counter, fun v -> dispatch (SetCounter v))
-        .Elt()
+// let counterPage model dispatch =
+//     Main.Counter()
+//         .Decrement(fun _ -> dispatch Decrement)
+//         .Increment(fun _ -> dispatch Increment)
+//         .Value(model.counter, fun v -> dispatch (SetCounter v))
+//         .Elt()
 
-let dataPage model (username: string) dispatch =
-    Main.Data()
-        .Reload(fun _ -> dispatch GetBooks)
-        .Username(username)
-        .SignOut(fun _ -> dispatch SendSignOut)
-        .Rows(cond model.books <| function
-            | None ->
-                Main.EmptyData().Elt()
-            | Some books ->
-                forEach books <| fun book ->
-                    tr [] [
-                        td [] [text book.title]
-                        td [] [text book.author]
-                        td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
-                        td [] [text book.isbn]
-                    ])
-        .Elt()
+// let dataPage model (username: string) dispatch =
+//     Main.Data()
+//         .Reload(fun _ -> dispatch GetBooks)
+//         .Username(username)
+//         .SignOut(fun _ -> dispatch SendSignOut)
+//         .Rows(cond model.books <| function
+//             | None ->
+//                 Main.EmptyData().Elt()
+//             | Some books ->
+//                 forEach books <| fun book ->
+//                     tr [] [
+//                         td [] [text book.title]
+//                         td [] [text book.author]
+//                         td [] [text (book.publishDate.ToString("yyyy-MM-dd"))]
+//                         td [] [text book.isbn]
+//                     ])
+//         .Elt()
 
-let signIinPage model dispatch =
-    Main.SignIn()
-        .Username(model.username, fun s -> dispatch (SetUsername s))
-        .Password(model.password, fun s -> dispatch (SetPassword s))
-        .SignIn(fun _ -> dispatch SendSignIn)
-        .ErrorNotification(
-            cond model.signInFailed <| function
-            | false -> empty
-            | true ->
-                Main.ErrorNotification()
-                    .HideClass("is-hidden")
-                    .Text("Sign in failed. Use any username and the password \"password\".")
-                    .Elt()
-        )
-        .Elt()
+// let signIinPage model dispatch =
+//     Main.SignIn()
+//         .Username(model.username, fun s -> dispatch (SetUsername s))
+//         .Password(model.password, fun s -> dispatch (SetPassword s))
+//         .SignIn(fun _ -> dispatch SendSignIn)
+//         .ErrorNotification(
+//             cond model.signInFailed <| function
+//             | false -> empty
+//             | true ->
+//                 Main.ErrorNotification()
+//                     .HideClass("is-hidden")
+//                     .Text("Sign in failed. Use any username and the password \"password\".")
+//                     .Elt()
+//         )
+//         .Elt()
 
 let menuItem (model: Model) (page: Page) (text: string) =
     Main.MenuItem()
@@ -265,17 +286,17 @@ let view model dispatch =
     Main()
         .Menu(concat [
             menuItem model Home "Home"
-            menuItem model Counter "Counter"
-            menuItem model Data "Download data"
+            // menuItem model Counter "Counter"
+            // menuItem model Data "Download data"
         ])
         .Body(
             cond model.page <| function
             | Home -> homePage model dispatch
-            | Counter -> counterPage model dispatch
-            | Data ->
-                cond model.signedInAs <| function
-                | Some username -> dataPage model username dispatch
-                | None -> signIinPage model dispatch
+            // | Counter -> counterPage model dispatch
+            // | Data ->
+            //     cond model.signedInAs <| function
+            //     | Some username -> dataPage model username dispatch
+            //     | None -> signIinPage model dispatch
         )
         .Error(
             cond model.error <| function

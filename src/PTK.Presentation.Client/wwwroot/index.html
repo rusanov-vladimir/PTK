@@ -2,12 +2,20 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Bolero Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Personal tool kit">
+    <meta name="author" content="3615">
+    <title>PTK. Keeping my thoughts organized</title>
     <base href="/">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
-    <link rel="stylesheet" href="css/index.css">
-    <style>
-            
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="css/index.css"> -->
+    <link rel="stylesheet" href="/css/default.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/media-queries.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="/js/modernizr.js"></script>
+    <link rel="shortcut icon" href="/favicon.png">
+    <style>            
       div#splash {
           position:relative;
           height: 100%;
@@ -30,6 +38,6 @@
         <img alt="Loading..." src="https://cdn.dribbble.com/users/107759/screenshots/2436386/copper-loader.gif">
       </div>
     </div>
-    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_framework/blazor.server.js"></script>
   </body>
 </html>
