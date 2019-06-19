@@ -5,8 +5,6 @@ open Elmish
 open Bolero
 open Bolero.Html
 open Bolero.Json
-open Bolero.Remoting
-open Bolero.Remoting.Client
 open Bolero.Templating.Client
 
 /// Routing endpoints definition.
@@ -20,7 +18,7 @@ type Model =
     {
         page: Page
         counter: int
-        books: Book[] option
+        mems: Mem[] option
         error: string option
         username: string
         password: string
@@ -59,39 +57,13 @@ let initModel =
     {
         page = Home
         counter = 0
-        books = None
+        mems = None
         error = None
         username = ""
         password = ""
         signedInAs = None
         signInFailed = false
     }
-
-/// Remote service definition.
-type BookService =
-    {
-        /// Get the list of all books in the collection.
-        getBooks: unit -> Async<Book[]>
-
-        /// Add a book in the collection.
-        addBook: Book -> Async<unit>
-
-        /// Remove a book from the collection, identified by its ISBN.
-        removeBookByIsbn: string -> Async<unit>
-
-        /// Sign into the application.
-        signIn : string * string -> Async<option<string>>
-
-        /// Get the user's name, or None if they are not authenticated.
-        getUsername : unit -> Async<string>
-
-        /// Sign out from the application.
-        signOut : unit -> Async<unit>
-    }
-
-    interface IRemoteService with
-        member this.BasePath = "/books"
-
 
 
 /// Remote service definition.
@@ -116,21 +88,18 @@ type MemService =
         // signOut : unit -> Async<unit>
     }
 
-    interface IRemoteService with
-        member this.BasePath = "/memories"    
-
 /// The Elmish application's update messages.
 type Message =
     | SetPage of Page
     | Increment
     | Decrement
     | SetCounter of int
-    | GetBooks
-    | GotBooks of Book[]
+    | GetMems
+    | GotMems of Mem[]
     | SetUsername of string
     | SetPassword of string
     | GetSignedInAs
-    | RecvSignedInAs of RemoteResponse<string>
+    // | RecvSignedInAs of RemoteResponse<string>
     | SendSignIn
     | RecvSignIn of option<string>
     | SendSignOut
@@ -140,7 +109,7 @@ type Message =
 
 let update remote message model =
     let onSignIn = function
-        | Some _ -> Cmd.ofMsg GetBooks
+        | Some _ -> Cmd.ofMsg GetMems
         | None -> Cmd.none
     match message with
     | SetPage page ->
@@ -153,27 +122,27 @@ let update remote message model =
     | SetCounter value ->
         { model with counter = value }, Cmd.none
 
-    | GetBooks ->
-        let cmd = Cmd.ofAsync remote.getBooks () GotBooks Error
-        { model with books = None }, cmd
-    | GotBooks books ->
-        { model with books = Some books }, Cmd.none
+    | GetMems ->
+        let cmd = Cmd.ofAsync remote.getMems () GotMems Error
+        { model with mems = None }, cmd
+    | GotMems mems ->
+        { model with mems = Some mems }, Cmd.none
 
     | SetUsername s ->
         { model with username = s }, Cmd.none
     | SetPassword s ->
         { model with password = s }, Cmd.none
-    | GetSignedInAs ->
-        model, Cmd.ofRemote remote.getUsername () RecvSignedInAs Error
-    | RecvSignedInAs resp ->
-        let username = resp.TryGetResponse()
-        { model with signedInAs = username }, onSignIn username
-    | SendSignIn ->
-        model, Cmd.ofAsync remote.signIn (model.username, model.password) RecvSignIn Error
+    // | GetSignedInAs ->
+    //     model, Cmd.ofRemote remote.getUsername () RecvSignedInAs Error
+    // | RecvSignedInAs resp ->
+    //     let username = resp.TryGetResponse()
+    //     { model with signedInAs = username }, onSignIn username
+    // | SendSignIn ->
+    //     model, Cmd.ofAsync remote.signIn (model.username, model.password) RecvSignIn Error
     | RecvSignIn username ->
         { model with signedInAs = username; signInFailed = Option.isNone username }, onSignIn username
-    | SendSignOut ->
-        model, Cmd.ofAsync remote.signOut () (fun () -> RecvSignOut) Error
+    // | SendSignOut ->
+    //     model, Cmd.ofAsync remote.signOut () (fun () -> RecvSignOut) Error
     | RecvSignOut ->
         { model with signedInAs = None; signInFailed = false }, Cmd.none
 
@@ -232,7 +201,16 @@ let readIndex (objs : Mem list) =
     App.layout ([section [attr.``class`` "section"] cnt]) [script [attr.src "/memoriesRead.js"] []]
 
 let homePage model dispatch =
-    Main.Home().Elt()
+    Main.Home()
+        .Data(cond model.mems <| function
+            | None ->
+                div [][text "nothing"]
+            | Some mems ->
+                forEach mems <| fun book ->
+                    tr [] [
+                        td [] [text book.title]
+                        td [] [text book.author]
+                    ]).Elt()
 
 // let counterPage model dispatch =
 //     Main.Counter()
@@ -313,9 +291,18 @@ type MyApp() =
     inherit ProgramComponent<Model, Message>()
 
     override this.Program =
-        let bookService = this.Remote<BookService>()
-        let update = update bookService
-        Program.mkProgram (fun _ -> initModel, Cmd.ofMsg GetSignedInAs) update view
+        let memService = {
+                            getMems = 
+                                fun x->  
+                                async{
+                                    let mem = {id = 1; title="test"; content = "content"; author= "a"; modifieddate=Option.None; tstamp = DateTime.Now; category = { id= 2; title= "cat"; description= "string"} }
+                                    let list = [|mem|]
+                                    return list
+                                }
+                         }
+        let update = update memService
+        let mems = memService.getMems () |> Async.RunSynchronously
+        Program.mkProgram (fun _ -> {initModel with mems = Some mems}, Cmd.ofMsg GetSignedInAs) update view
         |> Program.withRouter router
 #if DEBUG
         |> Program.withHotReloading

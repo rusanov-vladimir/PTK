@@ -14,7 +14,7 @@ open PTK.Presentation
 open Bolero.Templating.Server
 
 type BookService(env: IWebHostEnvironment) =
-    inherit RemoteHandler<Client.Main.BookService>()
+    //inherit RemoteHandler<Client.Main.BookService>()
 
     let books =
         Path.Combine(env.ContentRootPath, "data/books.json")
@@ -22,38 +22,38 @@ type BookService(env: IWebHostEnvironment) =
         |> Json.Deserialize<Client.Main.Book[]>
         |> ResizeArray
 
-    override this.Handler =
-        {
-            getBooks = Remote.authorize <| fun _ () -> async {
-                return books.ToArray()
-            }
+    // override this.Handler =
+    //     {
+    //         getBooks = Remote.authorize <| fun _ () -> async {
+    //             return books.ToArray()
+    //         }
 
-            addBook = Remote.authorize <| fun _ book -> async {
-                books.Add(book)
-            }
+    //         addBook = Remote.authorize <| fun _ book -> async {
+    //             books.Add(book)
+    //         }
 
-            removeBookByIsbn = Remote.authorize <| fun _ isbn -> async {
-                books.RemoveAll(fun b -> b.isbn = isbn) |> ignore
-            }
+    //         removeBookByIsbn = Remote.authorize <| fun _ isbn -> async {
+    //             books.RemoveAll(fun b -> b.isbn = isbn) |> ignore
+    //         }
 
-            signIn = Remote.withContext <| fun http (username, password) -> async {
-                if password = "password" then
-                    //do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
-                    return Some username
-                else
-                    return None
-            }
+    //         signIn = Remote.withContext <| fun http (username, password) -> async {
+    //             if password = "password" then
+    //                 //do! http.AsyncSignIn(username, TimeSpan.FromDays(365.))
+    //                 return Some username
+    //             else
+    //                 return None
+    //         }
 
-            signOut = Remote.withContext <| fun http () -> async {
-                //return! http.AsyncSignOut()
-                return ()
-            }
+    //         signOut = Remote.withContext <| fun http () -> async {
+    //             //return! http.AsyncSignOut()
+    //             return ()
+    //         }
 
-            getUsername = Remote.authorize <| fun http () -> async {
-                //return http.User.Identity.Name
-                return "wrong"
-            }
-        }
+    //         getUsername = Remote.authorize <| fun http () -> async {
+    //             //return http.User.Identity.Name
+    //             return "wrong"
+    //         }
+    //     }
 
 type Startup() =
 
@@ -65,7 +65,7 @@ type Startup() =
             .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie()
                 .Services
-            .AddRemoting<BookService>()
+            //.AddRemoting<BookService>()
             .AddServerSideBlazor()
 #if DEBUG
             .AddHotReload(templateDir = "../PTK.Presentation.Client")

@@ -8,7 +8,8 @@ open Bolero.Remoting.Client
 type Startup() =
 
     member __.ConfigureServices(services: IServiceCollection) =
-        services.AddRemoting()
+        //services.AddRemoting()
+        ()
 
     member __.Configure(app: IComponentsApplicationBuilder) =
         app.AddComponent<Main.MyApp>("#main")
