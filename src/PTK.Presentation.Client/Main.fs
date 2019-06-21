@@ -5,7 +5,11 @@ open Elmish
 open Bolero
 open Bolero.Html
 open Bolero.Json
+open FSharp.Data
 open Bolero.Templating.Client
+open FSharp.Data.HttpRequestHeaders
+open Newtonsoft.Json
+open System.IO
 
 /// Routing endpoints definition.
 type Page =
@@ -295,9 +299,21 @@ type MyApp() =
                             getMems = 
                                 fun x->  
                                 async{
-                                    let mem = {id = 1; title="test"; content = "content"; author= "a"; modifieddate=Option.None; tstamp = DateTime.Now; category = { id= 2; title= "cat"; description= "string"} }
-                                    let list = [|mem|]
-                                    return list
+                                    let! resp = FSharp.Data.Http.AsyncRequest( "http://localhost:8085/api/mems"
+                                                   , httpMethod = "GET"
+                                                   , headers = [ ContentType HttpContentTypes.Json; Accept HttpContentTypes.Json ]
+                                                )
+                                    let textResponse =
+                                             match resp.Body with
+                                             | Text text -> text
+                                             | Binary bytes -> 
+                                                               // just throw here?
+                                                               use memoryStream = new MemoryStream(bytes) 
+                                                               use streamReader = new StreamReader(memoryStream)
+                                                               let res = streamReader.ReadToEnd()
+                                                               res
+                                    let list = JsonConvert.DeserializeObject<List<Mem>> textResponse
+                                    return Array.ofSeq list
                                 }
                          }
         let update = update memService
